@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --color-padisquare-layout-bg: #F1F6F3;
+  --color-brand-green: #003313;
+  --color-brand-main: #159C47;
+  --color-color-24: #DCFCE7;
+  --color-color-31: #166534;
+  --color-edit-description-bg: #DFE8E3;
+  /* authentication page */
+  --color-password-toggle-btn: #F1F5F9;
+  --color-custom-input: #F8FAFC;
+  --color-password-toggle-text: #64748B;
+  --color-auth-or-text: #475569;
+  --color-auth-or: #CBD5E1;
+  --color-color-10: #0F172A;
+  --color-color-8: #334155;
+  --color-color-6: #64748B;
+  --color-color-orange: #AA5B00;
+  --color-color-40: #D97706;
+  --color-color-41: #B45309;
+  --color-color-3: #E2E8F0;
+  --color-color-5: #94A3B8;
+  --color-color-11: #020617;
+  --color-color-34: #FFFBEB;
+  --color-color-36: #FDE68A;
+  --color-color-9: #1E293B;
+  --color-color-37: #E8EDEA;
+  --color-color-18: #DC2626
+}
