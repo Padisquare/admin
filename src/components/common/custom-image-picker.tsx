@@ -112,10 +112,10 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({
                   prev.map((img) =>
                     img.id === tempId
                       ? { ...img, uploadProgress: progress.percentage }
-                      : img
-                  )
+                      : img,
+                  ),
                 );
-              }
+              },
             );
 
             // Update the image item with upload result
@@ -129,8 +129,8 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({
                       isUploading: false,
                       uploadProgress: 100,
                     }
-                  : img
-              )
+                  : img,
+              ),
             );
 
             return result;
@@ -147,8 +147,8 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({
                           ? error.message
                           : "Upload failed",
                     }
-                  : img
-              )
+                  : img,
+              ),
             );
             throw error;
           }
@@ -158,7 +158,7 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({
         const successfulUploads = results
           .filter(
             (result): result is PromiseFulfilledResult<UploadResult> =>
-              result.status === "fulfilled"
+              result.status === "fulfilled",
           )
           .map((result) => result.value);
 
@@ -169,7 +169,7 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({
               id: `initial-${r.public_id}`,
               url: r.secure_url,
               publicId: r.public_id,
-            })
+            }),
           );
 
           // Append to oldImages (these are the canonical uploaded images)
@@ -179,8 +179,8 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({
           setImages((prev) =>
             prev.filter(
               (img) =>
-                !successfulUploads.some((s) => s.public_id === img.publicId)
-            )
+                !successfulUploads.some((s) => s.public_id === img.publicId),
+            ),
           );
 
           // Notify parent with previous oldImages + newly uploaded results
@@ -198,12 +198,12 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({
 
           onImagesChange?.(allUploadedImages);
           toast.success(
-            `${successfulUploads.length} image(s) uploaded successfully`
+            `${successfulUploads.length} image(s) uploaded successfully`,
           );
         }
 
         const failedUploads = results.filter(
-          (result) => result.status === "rejected"
+          (result) => result.status === "rejected",
         ).length;
 
         if (failedUploads > 0) {
@@ -214,7 +214,7 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({
         toast.error("Failed to upload images");
       }
     },
-    [images, oldImages, maxImages, folder, onImagesChange]
+    [images, oldImages, maxImages, folder, onImagesChange],
   );
 
   const handleDeleteOldImage = useCallback(
@@ -258,7 +258,7 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({
 
       onImagesChange?.(allRemainingImages);
     },
-    [oldImages, images, onImagesChange]
+    [oldImages, images, onImagesChange],
   );
 
   const handleDeleteNewImage = useCallback(
@@ -302,7 +302,7 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({
 
       onImagesChange?.(allRemainingImages);
     },
-    [images, oldImages, onImagesChange]
+    [images, oldImages, onImagesChange],
   );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
