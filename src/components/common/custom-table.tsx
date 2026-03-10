@@ -61,7 +61,7 @@ const CustomTable = ({
     <Table
       className={cn(
         "border-separate border-spacing-y-3 w-full",
-        satoshi.className
+        satoshi.className,
       )}
     >
       <TableHeader>
@@ -72,7 +72,7 @@ const CustomTable = ({
                 <TableHead
                   key={header.id}
                   className={cn(
-                    "h-[29px] text-xs font-bold border-b text-color-8 border-password-toggle-btn"
+                    "h-[29px] text-xs font-bold border-b text-color-8 border-password-toggle-btn",
                     // index === 0
                     //   ? "rounded-l-xl"
                     //   : index === headerGroup.headers.length - 1
@@ -84,7 +84,7 @@ const CustomTable = ({
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                   {/* Pin to left control */}
                   {/* {
@@ -116,7 +116,7 @@ const CustomTable = ({
                 key={row.id}
                 className={cn(
                   "relative after:absolute after:-bottom-2 after:left-0 after:h-[1px] after:w-full after:bg-mid-gray-400",
-                  "pinned-row"
+                  "pinned-row",
                 )}
               >
                 {row.getVisibleCells().map((cell, index) => (
@@ -127,8 +127,8 @@ const CustomTable = ({
                       index === 0
                         ? "rounded-l-xl"
                         : index === row.getVisibleCells().length - 1
-                        ? "rounded-r-xl"
-                        : ""
+                          ? "rounded-r-xl"
+                          : "",
                     )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -147,7 +147,7 @@ const CustomTable = ({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 className={cn(
-                  "relative after:absolute after:-bottom-2 after:left-0 after:h-[1px] after:w-full after:bg-mid-gray-400"
+                  "relative after:absolute after:-bottom-2 after:left-0 after:h-[1px] after:w-full after:bg-mid-gray-400",
                 )}
               >
                 {row.getVisibleCells().map((cell, index) => (
@@ -158,8 +158,8 @@ const CustomTable = ({
                       index === 0
                         ? "rounded-l-xl"
                         : index === row.getVisibleCells().length - 1
-                        ? "rounded-r-xl"
-                        : ""
+                          ? "rounded-r-xl"
+                          : "",
                     )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -176,7 +176,7 @@ const CustomTable = ({
                 key={row.id}
                 className={cn(
                   "relative after:absolute after:-bottom-2 after:left-0 after:h-[1px] after:w-full after:bg-mid-gray-400",
-                  "pinned-row"
+                  "pinned-row",
                 )}
               >
                 {row.getVisibleCells().map((cell, index) => (
@@ -187,8 +187,8 @@ const CustomTable = ({
                       index === 0
                         ? "rounded-l-xl"
                         : index === row.getVisibleCells().length - 1
-                        ? "rounded-r-xl"
-                        : ""
+                          ? "rounded-r-xl"
+                          : "",
                     )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
