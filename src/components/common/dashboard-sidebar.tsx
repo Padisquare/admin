@@ -20,7 +20,7 @@ import {
   LayoutDashboard,
   Package,
   Settings,
-  Users
+  Users,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -78,8 +78,8 @@ const DashboardSidebar = () => {
       <SidebarHeader className="py-5">
         <Image
           src="/padisquare-logo.svg"
-          width={200}
-          height={40}
+          width={130}
+          height={35}
           alt="Padisquare Logo"
           className="opacity-90"
         />
@@ -99,13 +99,13 @@ const DashboardSidebar = () => {
                     asChild
                     className={cn(
                       "py-6",
-                      pathname === item.url && "!bg-brand-blue !text-black",
+                      pathname === item.url ? "bg-brand-main text-black" : "",
                     )}
                     isActive={pathname === item.url}
                   >
                     <Link href={item.url}>
-                      <item.icon className="!size-8" />
-                      <span className="text-xl font-medium tracking-tight">
+                      <item.icon className="size-4" />
+                      <span className="text-base font-medium tracking-tight">
                         {item.title}
                       </span>
                     </Link>
