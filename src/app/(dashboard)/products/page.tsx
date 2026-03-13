@@ -1,9 +1,14 @@
-import React from 'react'
+"use client"
+import { ProductsTable } from "@/components/product/products-table";
+import { productsData } from "@/constants/data";
+import React from "react";
 
-const ProductsHomePage = () => {
+const ProductHomePage = () => {
   return (
-    <div>ProductsHomePage</div>
-  )
-}
+    <section className="">
+      <ProductsTable data={productsData} loading={false} />
+    </section>
+  );
+};
 
-export default ProductsHomePage
+export default ProductHomePage;
