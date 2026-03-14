@@ -18,7 +18,7 @@ const MOCK_USERS: User[] = [
     email: "mariam@padisquare.com",
     role: "admin",
     status: "active",
-    createdAt: "2023-01-01",
+    createdAt: "2023-01-01T10:00:00.000Z",
   },
   {
     id: "2",
@@ -26,7 +26,7 @@ const MOCK_USERS: User[] = [
     email: "jason@padisquare.com",
     role: "vendor",
     status: "active",
-    createdAt: "2023-02-15",
+    createdAt: "2023-02-15T14:30:00.000Z",
   },
   {
     id: "3",
@@ -34,7 +34,7 @@ const MOCK_USERS: User[] = [
     email: "linda@padisquare.com",
     role: "buyer",
     status: "active",
-    createdAt: "2023-03-20",
+    createdAt: "2023-03-20T09:15:00.000Z",
   },
   {
     id: "4",
@@ -42,18 +42,17 @@ const MOCK_USERS: User[] = [
     email: "sarah@padisquare.com",
     role: "buyer",
     status: "inactive",
-    createdAt: "2023-08-18",
+    createdAt: "2023-08-18T18:45:00.000Z",
   },
 ];
 export default function UsersPage() {
   return (
-    <div className="space-y-6 bg-white p-6 rounded-lg ">
+    <div className="space-y-6 bg-white p-3 sm:p-6 rounded-lg ">
       <UserHeader />
       <UsersTable
         users={MOCK_USERS}
         loading={false}
       />
-
     </div>
   );
 }

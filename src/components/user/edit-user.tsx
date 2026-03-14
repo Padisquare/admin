@@ -8,12 +8,9 @@ import {
     SheetTitle,
     SheetFooter,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { User } from "@/app/(dashboard)/users/page";
-import { Loader2 } from "lucide-react";
 import CustomButton from "../common/custom-button";
+import CustomInput from "../common/custom-input";
 
 interface EditUserSheetProps {
     user: User;
@@ -32,31 +29,40 @@ export function EditUserSheet({ user, open, onOpenChange }: EditUserSheetProps) 
         setIsLoading(false);
         onOpenChange(false);
     };
-
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent className="sm:max-w-106 p-6">
-                <SheetHeader>
-                    <SheetTitle>Edit Profile</SheetTitle>
+                <SheetHeader className="mb-6">
+                    <SheetTitle className="text-2xl font-bold">Edit Profile</SheetTitle>
                     <SheetDescription>
                         Make changes to the user's profile here. Click save when you're done.
                     </SheetDescription>
                 </SheetHeader>
-
-                <form onSubmit={handleSave} className="grid gap-4 py-4">
-                    <div className="grid gap-2">
-                        <Label htmlFor="name">Full Name</Label>
-                        <Input id="name" defaultValue={user.name} className="col-span-3" />
-                    </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" defaultValue={user.email} className="col-span-3" />
-                    </div>
-                    <SheetFooter className="mt-6">
-                        <Button type="submit" disabled={isLoading} className="bg-brand-main">
-                            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Save changes
-                        </Button>
+                <form onSubmit={handleSave} className="flex flex-col gap-5">
+                    <CustomInput
+                        label="Full Name"
+                        name="name"
+                        type="text"
+                        placeholder="Enter full name"
+                        defaultValue={user.name}
+                        required
+                    />
+                    <CustomInput
+                        label="Email Address"
+                        name="email"
+                        type="email"
+                        placeholder="Enter email address"
+                        defaultValue={user.email}
+                        required
+                    />
+                    <SheetFooter className="mt-4">
+                        <CustomButton
+                            type="submit"
+                            label="Save Changes"
+                            isLoading={isLoading}
+                            className="w-full"
+                            variant="primary"
+                        />
                     </SheetFooter>
                 </form>
             </SheetContent>

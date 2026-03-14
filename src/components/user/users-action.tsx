@@ -9,8 +9,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { User } from "@/app/(dashboard)/users/page";
-import { DeactivateUserDialog } from "./deactivate-user-dialog";
 import { EditUserSheet } from "./edit-user";
+import { ConfirmActionDialog } from "./confirmation-dialog";
 
 interface UsersActionsProps {
     user: User;
@@ -18,26 +18,32 @@ interface UsersActionsProps {
 export default function UsersActions({ user }: UsersActionsProps) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
-    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [deactivateOpen, setDeactivateOpen] = useState(false);
+    const [deleteOpen, setDeleteOpen] = useState(false);
 
     return (
         <>
-            <EditUserSheet
-                user={user}
-                open={editOpen}
-                onOpenChange={setEditOpen}
+            <EditUserSheet user={user} open={editOpen} onOpenChange={setEditOpen} />
+            <ConfirmActionDialog
+                open={deactivateOpen}
+                onOpenChange={setDeactivateOpen}
+                title="Deactivate User"
+                description={<>Are you sure you want to deactivate <strong>{user.name}</strong>? This can be reversed later.</>}
+                confirmText="Deactivate"
+                onConfirm={async () => { }}
             />
-            <DeactivateUserDialog
-                open={confirmOpen}
-                onOpenChange={setConfirmOpen}
-                userName={user.name}
+            <ConfirmActionDialog
+                open={deleteOpen}
+                onOpenChange={setDeleteOpen}
+                title="Delete User"
+                description={<>Are you sure you want to delete <strong>{user.name}</strong>? This action is permanent.</>}
+                confirmText="Delete User"
+                variant="destructive"
                 onConfirm={async () => { }}
             />
             <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                        <MoreHorizontal className="h-4 w-4" />
-                    </Button>
+                    <Button variant="ghost" size="icon"><MoreHorizontal /></Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuItem
@@ -45,24 +51,16 @@ export default function UsersActions({ user }: UsersActionsProps) {
                     >
                         View Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                        onSelect={(e) => {
-                            e.preventDefault();
-                            setEditOpen(true);
-                            setDropdownOpen(false);
-                        }}
-                    >
+                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); setEditOpen(true); setDropdownOpen(false); }}>
                         Edit User
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                        onSelect={(e) => {
-                            e.preventDefault();
-                            setConfirmOpen(true);
-                            setDropdownOpen(false);
-                        }}
-                        className="text-red-500"
-                    >
+                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); setDeactivateOpen(true); setDropdownOpen(false); }}>
                         Deactivate User
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className="text-red-600"
+                        onSelect={(e) => { e.preventDefault(); setDeleteOpen(true); setDropdownOpen(false); }}>
+                        Delete User
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

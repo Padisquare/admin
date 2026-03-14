@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import {
     AlertDialog,
@@ -12,53 +11,60 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-interface DeactivateUserDialogProps {
+interface ConfirmActionDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    userName: string;
+    title: string;
+    description: React.ReactNode;
+    confirmText: string;
+    variant?: "default" | "destructive";
     onConfirm: () => Promise<void> | void;
 }
 
-export function DeactivateUserDialog({
+export function ConfirmActionDialog({
     open,
     onOpenChange,
-    userName,
+    title,
+    description,
+    confirmText,
+    variant = "destructive",
     onConfirm
-}: DeactivateUserDialogProps) {
+}: ConfirmActionDialogProps) {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleAction = async (e: React.MouseEvent) => {
-        e.preventDefault(); // Keep dialog open until logic finishes
+        e.preventDefault();
         setIsLoading(true);
         try {
             await onConfirm();
             onOpenChange(false);
         } catch (error) {
-            console.error("Deactivation failed", error);
+            console.error(error);
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent>
+        <AlertDialog open={open} onOpenChange={onOpenChange} >
+            <AlertDialogContent className="space-y-2 max-w-75 sm:min-w-lg">
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Deactivate User</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        Are you sure you want to deactivate <strong>{userName}</strong>?
-                        This action can be reversed later.
-                    </AlertDialogDescription>
+                    <AlertDialogTitle>{title}</AlertDialogTitle>
+                    <AlertDialogDescription>{description}</AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
+                <AlertDialogFooter >
                     <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
                     <AlertDialogAction
                         onClick={handleAction}
-                        className="bg-red-600 hover:bg-red-700 text-white"
+                        className={cn(
+                            variant === "destructive" ? "bg-red-600 hover:bg-red-700 text-white" : "",
+                            "min-w-25 mb-2"
+                        )}
                         disabled={isLoading}
                     >
-                        {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Deactivate"}
+                        {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : confirmText}
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
