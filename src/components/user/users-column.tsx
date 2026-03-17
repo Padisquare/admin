@@ -8,20 +8,28 @@ import { format } from "date-fns";
 
 export const usersColumns: ColumnDef<User>[] = [
     {
-        accessorKey: "name",
+        id: "name",
         header: "Name",
         cell: ({ row }) => {
             const user = row.original;
-            const initials = user.name?.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
+            const initials = `${user.firstname?.[0] || ""}${user.lastname?.[0] || ""}`.toUpperCase();
+            const fullName = `${user.firstname} ${user.lastname}`;
             return (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                     <Avatar className="h-9 w-9">
-                        <AvatarImage src={user.avatar} alt={user.name} />
-                        <AvatarFallback className="bg-gray-100 text-xs font-medium">
+                        <AvatarImage src={user.avatar} alt={fullName} />
+                        <AvatarFallback className="bg-gray-100 text-xs font-medium text-gray-600">
                             {initials}
                         </AvatarFallback>
                     </Avatar>
-                    <span className="font-medium">{user.name}</span>
+                    <div className="flex flex-col">
+                        <span className="font-medium text-sm leading-none">
+                            {fullName}
+                        </span>
+                        <span className="text-xs text-muted-foreground mt-1">
+                            @{user.username}
+                        </span>
+                    </div>
                 </div>
             );
         },

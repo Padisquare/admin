@@ -1,69 +1,119 @@
-"use client";
-import { useState } from "react";
+"use client"
+import { useState, useTransition } from "react"
+import { useRouter } from "next/navigation"
+import { MoreHorizontal, UserCircle, Pencil, Ban, Trash2 } from "lucide-react"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
-import { User } from "@/app/(dashboard)/users/page";
-import { EditUserSheet } from "./edit-user";
-import { ConfirmActionDialog } from "./confirmation-dialog";
+    DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import { User } from "@/app/(dashboard)/users/page"
+import { ConfirmActionDialog } from "./confirmation-dialog"
+import ViewProfileModal from "./users-profile"
 
 interface UsersActionsProps {
-    user: User;
+    user: User
 }
+type DialogType = "view" | "deactivate" | "delete"
+
 export default function UsersActions({ user }: UsersActionsProps) {
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [editOpen, setEditOpen] = useState(false);
-    const [deactivateOpen, setDeactivateOpen] = useState(false);
-    const [deleteOpen, setDeleteOpen] = useState(false);
+    const router = useRouter()
+    const [activeDialog, setActiveDialog] = useState<DialogType | null>(null)
+    const [isPending, startTransition] = useTransition()
+
+    const handleAction = (type: DialogType | "edit") => {
+        if (type === "edit") {
+            router.push(`/users/${user.id}/edit`)
+            return
+        }
+        setActiveDialog(type)
+    }
+    const onConfirmAction = async (type: "delete" | "deactivate") => {
+        startTransition(async () => {
+            try {
+                if (type === "delete") {
+                    // await deleteUser(user.id)
+                }
+                if (type === "deactivate") {
+                    // await deactivateUser(user.id)
+                }
+                setActiveDialog(null)
+            } catch (error) {
+                console.error(error)
+            }
+        })
+    }
 
     return (
         <>
-            <EditUserSheet user={user} open={editOpen} onOpenChange={setEditOpen} />
+            <ViewProfileModal
+                user={user}
+                open={activeDialog === "view"}
+                onOpenChange={(open) => !open && setActiveDialog(null)}
+            />
             <ConfirmActionDialog
-                open={deactivateOpen}
-                onOpenChange={setDeactivateOpen}
+                open={activeDialog === "deactivate"}
+                onOpenChange={(open) => !open && setActiveDialog(null)}
+                isLoading={isPending}
                 title="Deactivate User"
-                description={<>Are you sure you want to deactivate <strong>{user.name}</strong>? This can be reversed later.</>}
+                description={
+                    <>
+                        Are you sure you want to deactivate <strong>{user.firstname} {user.lastname}</strong>?
+                    </>
+                }
                 confirmText="Deactivate"
-                onConfirm={async () => { }}
+                onConfirm={() => onConfirmAction("deactivate")}
             />
             <ConfirmActionDialog
-                open={deleteOpen}
-                onOpenChange={setDeleteOpen}
+                open={activeDialog === "delete"}
+                onOpenChange={(open) => !open && setActiveDialog(null)}
+                isLoading={isPending}
                 title="Delete User"
-                description={<>Are you sure you want to delete <strong>{user.name}</strong>? This action is permanent.</>}
-                confirmText="Delete User"
                 variant="destructive"
-                onConfirm={async () => { }}
+                description={
+                    <>
+                        Are you sure you want to delete <strong>{user.firstname} {user.lastname}</strong>?
+                    </>
+                }
+                confirmText="Delete User"
+                onConfirm={() => onConfirmAction("delete")}
             />
-            <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+            <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon"><MoreHorizontal /></Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                    // onClick={() => router.push(`/users/${user.id}`)}
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                        aria-label="Open user actions"
+                        disabled={isPending}
                     >
+                        <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-40">
+                    <DropdownMenuItem onSelect={() => { handleAction("view") }}>
+                        <UserCircle className="mr-2 h-4 w-4" />
                         View Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); setEditOpen(true); setDropdownOpen(false); }}>
+                    <DropdownMenuItem onSelect={() => { handleAction("edit") }}>
+                        <Pencil className="mr-2 h-4 w-4" />
                         Edit User
                     </DropdownMenuItem>
-                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); setDeactivateOpen(true); setDropdownOpen(false); }}>
-                        Deactivate User
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onSelect={() => { handleAction("deactivate") }}>
+                        <Ban className="mr-2 h-4 w-4" />
+                        Deactivate
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className="text-red-600"
-                        onSelect={(e) => { e.preventDefault(); setDeleteOpen(true); setDropdownOpen(false); }}>
+                    <DropdownMenuItem onSelect={() => { handleAction("delete") }}
+                        className="text-red-600 focus:text-red-600 focus:bg-red-50">
+                        <Trash2 className="mr-2 h-4 w-4" />
                         Delete User
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </>
-    );
+    )
 }

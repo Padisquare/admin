@@ -1,5 +1,4 @@
-"use client";
-import { useState } from "react";
+"use client"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -9,18 +8,19 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+} from "@/components/ui/alert-dialog"
+import { Loader2 } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface ConfirmActionDialogProps {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    title: string;
-    description: React.ReactNode;
-    confirmText: string;
-    variant?: "default" | "destructive";
-    onConfirm: () => Promise<void> | void;
+    open: boolean
+    onOpenChange: (open: boolean) => void
+    title: string
+    description: React.ReactNode
+    confirmText: string
+    variant?: "default" | "destructive"
+    isLoading?: boolean
+    onConfirm: () => Promise<void>
 }
 
 export function ConfirmActionDialog({
@@ -30,44 +30,47 @@ export function ConfirmActionDialog({
     description,
     confirmText,
     variant = "destructive",
-    onConfirm
+    isLoading = false,
+    onConfirm,
 }: ConfirmActionDialogProps) {
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handleAction = async (e: React.MouseEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-        try {
-            await onConfirm();
-            onOpenChange(false);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const handleConfirm = async (e: React.MouseEvent) => {
+        e.preventDefault()
+        await onConfirm()
+    }
 
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange} >
-            <AlertDialogContent className="space-y-2 max-w-75 sm:min-w-lg">
+        <AlertDialog open={open} onOpenChange={onOpenChange}>
+            <AlertDialogContent className="max-w-75 sm:max-w-md">
                 <AlertDialogHeader>
                     <AlertDialogTitle>{title}</AlertDialogTitle>
-                    <AlertDialogDescription>{description}</AlertDialogDescription>
+                    <AlertDialogDescription>
+                        {description}
+                    </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter >
-                    <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
+                <AlertDialogFooter className="gap-2 mt-2">
+                    <AlertDialogCancel disabled={isLoading}>
+                        Cancel
+                    </AlertDialogCancel>
                     <AlertDialogAction
-                        onClick={handleAction}
-                        className={cn(
-                            variant === "destructive" ? "bg-red-600 hover:bg-red-700 text-white" : "",
-                            "min-w-25 mb-2"
-                        )}
+                        onClick={handleConfirm}
                         disabled={isLoading}
+                        aria-busy={isLoading}
+                        className={cn(
+                            variant === "destructive" &&
+                            "bg-red-600 hover:bg-red-700 text-white"
+                        )}
                     >
-                        {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : confirmText}
+                        {isLoading ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Processing...
+                            </>
+                        ) : (
+                            confirmText
+                        )}
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-    );
+    )
 }

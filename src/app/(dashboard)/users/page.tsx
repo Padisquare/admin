@@ -4,17 +4,21 @@ export type UserRole = "admin" | "vendor" | "buyer"
 export type UserStatus = "active" | "inactive"
 export interface User {
   id: string
-  name: string
+  firstname: string
+  lastname: string
+  username: string
   email: string
   avatar?: string
   role: UserRole
   status: UserStatus
   createdAt: string
 }
-const MOCK_USERS: User[] = [
+export const MOCK_USERS: User[] = [
   {
     id: "1",
-    name: "Mariam Ahmed",
+    firstname: "Mariam",
+    lastname: "Ahmed",
+    username: "mariam_a",
     email: "mariam@padisquare.com",
     role: "admin",
     status: "active",
@@ -22,7 +26,9 @@ const MOCK_USERS: User[] = [
   },
   {
     id: "2",
-    name: "Jason Roy",
+    firstname: "Jason",
+    lastname: "Roy",
+    username: "jroy_vendor",
     email: "jason@padisquare.com",
     role: "vendor",
     status: "active",
@@ -30,7 +36,9 @@ const MOCK_USERS: User[] = [
   },
   {
     id: "3",
-    name: "Linda Torres",
+    firstname: "Linda",
+    lastname: "Torres",
+    username: "ltorres",
     email: "linda@padisquare.com",
     role: "buyer",
     status: "active",
@@ -38,7 +46,9 @@ const MOCK_USERS: User[] = [
   },
   {
     id: "4",
-    name: "Sarah O'Connor",
+    firstname: "Sarah",
+    lastname: "O'Connor",
+    username: "sarah_oc",
     email: "sarah@padisquare.com",
     role: "buyer",
     status: "inactive",
