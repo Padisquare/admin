@@ -1,4 +1,4 @@
-import { Product } from "@/components/product/columns";
+import { Product } from "@/components/product/product-table-columns";
 
 export const productsData: Product[] = [
   {
@@ -9,6 +9,8 @@ export const productsData: Product[] = [
     totalSold: 1240,
     price: "$149.99",
     quantityInStock: 85,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     stockStatus: "In Stock",
     businessId: 101,
     businessName: "SoundWave Electronics",
@@ -23,6 +25,8 @@ export const productsData: Product[] = [
     price: "$229.00",
     quantityInStock: 42,
     stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 102,
     businessName: "Timeless Goods",
     ownerEmail: "hello@timelessgoods.com",
@@ -37,6 +41,8 @@ export const productsData: Product[] = [
     quantityInStock: 130,
     stockStatus: "In Stock",
     businessId: 103,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessName: "Brew & Co.",
     ownerEmail: "shop@brewandco.com",
   },
@@ -49,6 +55,8 @@ export const productsData: Product[] = [
     price: "$34.50",
     quantityInStock: 0,
     stockStatus: "Out of Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 104,
     businessName: "Eco Carry",
     ownerEmail: "info@ecocarry.io",
@@ -62,6 +70,8 @@ export const productsData: Product[] = [
     price: "$44.00",
     quantityInStock: 210,
     stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 105,
     businessName: "Green Workspace",
     ownerEmail: "desk@greenworkspace.com",
@@ -75,6 +85,8 @@ export const productsData: Product[] = [
     price: "$89.95",
     quantityInStock: 18,
     stockStatus: "Low Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 106,
     businessName: "Snap Moments",
     ownerEmail: "sales@snapmoments.com",
@@ -88,6 +100,8 @@ export const productsData: Product[] = [
     price: "$28.00",
     quantityInStock: 320,
     stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 107,
     businessName: "Aura Home",
     ownerEmail: "aura@aurahome.co",
@@ -101,6 +115,8 @@ export const productsData: Product[] = [
     price: "$24.99",
     quantityInStock: 450,
     stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 108,
     businessName: "HydroLife",
     ownerEmail: "store@hydrolife.com",
@@ -114,6 +130,8 @@ export const productsData: Product[] = [
     price: "$119.00",
     quantityInStock: 55,
     stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 109,
     businessName: "KeyForge",
     ownerEmail: "support@keyforge.dev",
@@ -127,6 +145,8 @@ export const productsData: Product[] = [
     price: "$19.99",
     quantityInStock: 7,
     stockStatus: "Low Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 110,
     businessName: "Little Greens",
     ownerEmail: "plants@littlegreens.shop",
@@ -140,6 +160,8 @@ export const productsData: Product[] = [
     price: "$55.00",
     quantityInStock: 160,
     stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 111,
     businessName: "Zenflow Fitness",
     ownerEmail: "gear@zenflow.com",
@@ -153,6 +175,8 @@ export const productsData: Product[] = [
     price: "$18.50",
     quantityInStock: 500,
     stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 112,
     businessName: "Paper & Ink Studio",
     ownerEmail: "hello@paperink.studio",
@@ -166,6 +190,8 @@ export const productsData: Product[] = [
     price: "$79.00",
     quantityInStock: 0,
     stockStatus: "Out of Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 101,
     businessName: "SoundWave Electronics",
     ownerEmail: "owner@soundwave.com",
@@ -180,6 +206,8 @@ export const productsData: Product[] = [
     quantityInStock: 280,
     stockStatus: "In Stock",
     businessId: 113,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessName: "Glow Lab",
     ownerEmail: "beauty@glowlab.co",
   },
@@ -192,6 +220,8 @@ export const productsData: Product[] = [
     price: "$65.00",
     quantityInStock: 30,
     stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessId: 114,
     businessName: "Classic Games Co.",
     ownerEmail: "orders@classicgames.com",
@@ -203,6 +233,8 @@ export const productsData: Product[] = [
       "https://images.unsplash.com/photo-1580301762395-21ce84d00bc6?w=400&q=80",
     totalSold: 2200,
     price: "$49.99",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     quantityInStock: 95,
     stockStatus: "In Stock",
     businessId: 107,
@@ -219,6 +251,8 @@ export const productsData: Product[] = [
     quantityInStock: 12,
     stockStatus: "Low Stock",
     businessId: 103,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessName: "Brew & Co.",
     ownerEmail: "shop@brewandco.com",
   },
@@ -232,6 +266,8 @@ export const productsData: Product[] = [
     quantityInStock: 200,
     stockStatus: "In Stock",
     businessId: 102,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     businessName: "Timeless Goods",
     ownerEmail: "hello@timelessgoods.com",
   },
@@ -246,6 +282,8 @@ export const productsData: Product[] = [
     stockStatus: "In Stock",
     businessId: 105,
     businessName: "Green Workspace",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     ownerEmail: "desk@greenworkspace.com",
   },
   {
@@ -256,6 +294,8 @@ export const productsData: Product[] = [
     totalSold: 4800,
     price: "$22.99",
     quantityInStock: 340,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
     stockStatus: "In Stock",
     businessId: 111,
     businessName: "Zenflow Fitness",

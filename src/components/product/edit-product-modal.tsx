@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Product } from "./columns";
 
 import {
   Dialog,
@@ -14,6 +13,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Product } from "./product-table-columns";
+import { Textarea } from "../ui/textarea";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface Props {
   product: Product | null;
@@ -45,47 +47,92 @@ const EditProductModal = ({ product, open, onClose }: Props) => {
         <DialogHeader>
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
+        <ScrollArea className="h-[400px] py-4">
+          <div className="grid gap-4 py-4">
+            {/* Product Name */}
+            <div className="grid gap-2">
+              <Label>Name</Label>
+              <Input
+                value={formData.name}
+                onChange={(e) => handleChange("name", e.target.value)}
+              />
+            </div>
 
-        <div className="grid gap-4 py-4">
-          {/* Product Name */}
-          <div className="grid gap-2">
-            <Label>Name</Label>
-            <Input
-              value={formData.name}
-              onChange={(e) => handleChange("name", e.target.value)}
-            />
-          </div>
+            {/* Price */}
+            <div className="grid gap-2">
+              <Label>Price</Label>
+              <Input
+                value={formData.price}
+                onChange={(e) => handleChange("price", e.target.value)}
+              />
+            </div>
 
-          {/* Price */}
-          <div className="grid gap-2">
-            <Label>Price</Label>
-            <Input
-              value={formData.price}
-              onChange={(e) => handleChange("price", e.target.value)}
-            />
-          </div>
+            {/* State  */}
+            <div className="grid gap-2">
+              <Label>State</Label>
+              <Input
+                value={formData.state}
+                onChange={(e) => handleChange("state", e.target.value)}
+              />
+            </div>
 
-          {/* Quantity */}
-          <div className="grid gap-2">
-            <Label>Quantity In Stock</Label>
-            <Input
-              type="number"
-              value={formData.quantityInStock}
-              onChange={(e) =>
-                handleChange("quantityInStock", Number(e.target.value))
-              }
-            />
-          </div>
+            {/* LGA  */}
+            <div className="grid gap-2">
+              <Label>LGA</Label>
+              <Input
+                value={formData.lga}
+                onChange={(e) => handleChange("lga", e.target.value)}
+              />
+            </div>
 
-          {/* Stock Status */}
-          <div className="grid gap-2">
-            <Label>Stock Status</Label>
-            <Input
-              value={formData.stockStatus}
-              onChange={(e) => handleChange("stockStatus", e.target.value)}
-            />
+            {/* Category  */}
+            <div className="grid gap-2">
+              <Label>Category</Label>
+              <Input
+                value={formData.category}
+                onChange={(e) => handleChange("category", e.target.value)}
+              />
+            </div>
+            {/* Subcategory  */}
+            <div className="grid gap-2">
+              <Label>SubCategory</Label>
+              <Input
+                value={formData.subCategory}
+                onChange={(e) => handleChange("subCategory", e.target.value)}
+              />
+            </div>
+
+            {/* Descriptioon */}
+            <div className="grid gap-2">
+              <Label>Description</Label>
+              <Textarea
+                value={formData.description}
+                onChange={(e) => handleChange("description", e.target.value)}
+              />
+            </div>
+
+            {/* Quantity */}
+            <div className="grid gap-2">
+              <Label>Quantity In Stock</Label>
+              <Input
+                type="number"
+                value={formData.quantityInStock}
+                onChange={(e) =>
+                  handleChange("quantityInStock", Number(e.target.value))
+                }
+              />
+            </div>
+
+            {/* Stock Status */}
+            <div className="grid gap-2">
+              <Label>Condition</Label>
+              <Input
+                value={formData.stockStatus}
+                onChange={(e) => handleChange("stockStatus", e.target.value)}
+              />
+            </div>
           </div>
-        </div>
+        </ScrollArea>
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
