@@ -29,7 +29,7 @@ const ProductHomePage = () => {
 
   return (
     <section className="bg-white px-5 pb-10 pt-5">
-      <ProductFilters onChange={() => {}} />
+      <ProductFilters />
       <CustomTable
         data={paginatedData}
         columns={productTableColumns}
