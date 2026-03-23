@@ -39,18 +39,6 @@ export const usersColumns: ColumnDef<User>[] = [
         header: "Email",
     },
     {
-        accessorKey: "role",
-        header: "Role",
-        cell: ({ row }) => {
-            const role = row.original.role;
-            return (
-                <Badge variant="secondary" className="capitalize">
-                    {role}
-                </Badge>
-            );
-        },
-    },
-    {
         accessorKey: "status",
         header: "Status",
         cell: ({ row }) => {

@@ -9,7 +9,6 @@ export interface User {
   username: string
   email: string
   avatar?: string
-  role: UserRole
   status: UserStatus
   createdAt: string
 }
@@ -20,7 +19,6 @@ export const MOCK_USERS: User[] = [
     lastname: "Ahmed",
     username: "mariam_a",
     email: "mariam@padisquare.com",
-    role: "admin",
     status: "active",
     createdAt: "2023-01-01T10:00:00.000Z",
   },
@@ -30,7 +28,6 @@ export const MOCK_USERS: User[] = [
     lastname: "Roy",
     username: "jroy_vendor",
     email: "jason@padisquare.com",
-    role: "vendor",
     status: "active",
     createdAt: "2023-02-15T14:30:00.000Z",
   },
@@ -40,7 +37,6 @@ export const MOCK_USERS: User[] = [
     lastname: "Torres",
     username: "ltorres",
     email: "linda@padisquare.com",
-    role: "buyer",
     status: "active",
     createdAt: "2023-03-20T09:15:00.000Z",
   },
@@ -50,7 +46,6 @@ export const MOCK_USERS: User[] = [
     lastname: "O'Connor",
     username: "sarah_oc",
     email: "sarah@padisquare.com",
-    role: "buyer",
     status: "inactive",
     createdAt: "2023-08-18T18:45:00.000Z",
   },

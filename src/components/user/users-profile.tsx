@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "@/app/(dashboard)/users/page";
+import { format } from "date-fns";
 
 interface ViewProfileModalProps {
     user: User;
@@ -15,7 +16,7 @@ interface ViewProfileModalProps {
 
 export default function ViewProfileModal({ user, open, onOpenChange }: ViewProfileModalProps) {
     const initials = `${user.firstname[0]}${user.lastname[0]}`.toUpperCase();
-
+    const date = new Date(user.createdAt);
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-md">
@@ -36,8 +37,8 @@ export default function ViewProfileModal({ user, open, onOpenChange }: ViewProfi
                     </div>
                     <div className="w-full grid grid-cols-2 gap-4 mt-4 pt-4 border-t">
                         <div>
-                            <p className="text-xs text-muted-foreground uppercase font-bold">Role</p>
-                            <p className="capitalize font-medium">{user.role}</p>
+                            <p className="text-xs text-muted-foreground uppercase font-bold">Joined at</p>
+                            <p className="capitalize font-medium">{format(date, "MMM dd, yyyy")}</p>
                         </div>
                         <div>
                             <p className="text-xs text-muted-foreground uppercase font-bold">Status</p>
