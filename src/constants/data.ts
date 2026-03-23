@@ -1,5 +1,6 @@
 import { Product } from "@/components/product/product-table-columns";
 import { Reel } from "@/components/reels/reels-column";
+import { Website } from "@/components/website/website-column";
 
 export const productsData: Product[] = [
   {
@@ -374,5 +375,118 @@ export const reelsDummyData: Reel[] = [
     creatorEmail: "growth@example.com",
     creatorAvatar: "https://i.pravatar.cc/150?img=15",
     createdAt: "2026-03-22T12:00:00Z",
+  },
+];
+
+
+
+export const websitesDummyData: Website[] = [
+  {
+    id: 1,
+    title: "TechStore",
+    logo: "https://logo.clearbit.com/apple.com",
+    url: "https://techstore.shop",
+    template: "Modern Store",
+
+    ownerId: 101,
+    ownerName: "David Tech",
+    ownerEmail: "david@example.com",
+    ownerAvatar: "https://i.pravatar.cc/150?img=1",
+
+    productsCount: 45,
+    visits: 120000,
+
+    status: "active",
+    createdAt: "2026-03-10T10:00:00Z",
+  },
+  {
+    id: 2,
+    title: "Fashion Hub",
+    logo: "https://logo.clearbit.com/nike.com",
+    url: "https://fashionhub.store",
+    template: "Minimal Fashion",
+
+    ownerId: 102,
+    ownerName: "Sarah Styles",
+    ownerEmail: "sarah@example.com",
+    ownerAvatar: "https://i.pravatar.cc/150?img=5",
+
+    productsCount: 80,
+    visits: 98000,
+
+    status: "active",
+    createdAt: "2026-03-12T14:20:00Z",
+  },
+  {
+    id: 3,
+    title: "Gadget World",
+    logo: "https://logo.clearbit.com/samsung.com",
+    url: "https://gadgetworld.ng",
+    template: "Electro Shop",
+
+    ownerId: 103,
+    ownerName: "Mike Gadgets",
+    ownerEmail: "mike@example.com",
+    ownerAvatar: "https://i.pravatar.cc/150?img=8",
+
+    productsCount: 120,
+    visits: 210000,
+
+    status: "active",
+    createdAt: "2026-03-15T09:30:00Z",
+  },
+  {
+    id: 4,
+    title: "Sneaker Plug",
+    logo: "https://logo.clearbit.com/adidas.com",
+    url: "https://sneakerplug.shop",
+    template: "Streetwear",
+
+    ownerId: 104,
+    ownerName: "John Kicks",
+    ownerEmail: "john@example.com",
+    ownerAvatar: "https://i.pravatar.cc/150?img=12",
+
+    productsCount: 60,
+    visits: 67000,
+
+    status: "inactive",
+    createdAt: "2026-03-05T18:10:00Z",
+  },
+  {
+    id: 5,
+    title: "Beauty Glow",
+    logo: "https://logo.clearbit.com/sephora.com",
+    url: "https://beautyglow.store",
+    template: "Cosmetics Pro",
+
+    ownerId: 105,
+    ownerName: "Ella Beauty",
+    ownerEmail: "ella@example.com",
+    ownerAvatar: "https://i.pravatar.cc/150?img=15",
+
+    productsCount: 35,
+    visits: 54000,
+
+    status: "active",
+    createdAt: "2026-03-18T12:00:00Z",
+  },
+  {
+    id: 6,
+    title: "Luxury Watches",
+    logo: "https://logo.clearbit.com/rolex.com",
+    url: "https://luxurywatches.ng",
+    template: "Premium Luxe",
+
+    ownerId: 106,
+    ownerName: "Chris Luxury",
+    ownerEmail: "chris@example.com",
+    ownerAvatar: "https://i.pravatar.cc/150?img=18",
+
+    productsCount: 20,
+    visits: 45000,
+
+    status: "flagged",
+    createdAt: "2026-03-08T16:45:00Z",
   },
 ];
