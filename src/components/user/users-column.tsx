@@ -4,7 +4,8 @@ import { User } from "@/app/(dashboard)/users/page";
 import { Badge } from "../ui/badge";
 import UsersActions from "./users-action";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { format } from "date-fns";
+import { formatOnlyDate } from "@/utils/formatDate";
+
 
 export const usersColumns: ColumnDef<User>[] = [
     {
@@ -57,8 +58,7 @@ export const usersColumns: ColumnDef<User>[] = [
         accessorKey: "createdAt",
         header: "Joined",
         cell: ({ row }) => {
-            const date = new Date(row.original.createdAt);
-            return <span className="text-gray-600">{format(date, "MMM dd, yyyy")}</span>;
+            return <span className="text-gray-600">{formatOnlyDate(row.original.createdAt)}</span>;
 
         },
     },
