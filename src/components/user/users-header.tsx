@@ -10,7 +10,7 @@ const UserHeader = () => {
     <div className="flex items-center justify-between gap-5">
       <Input
         placeholder="Search users..."
-        className="w-65"
+        className="w-65 h-10 border-[#D0D5DD]"
       />
       <CustomButton
         type="button"

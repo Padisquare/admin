@@ -52,7 +52,7 @@ export const MOCK_USERS: User[] = [
 ];
 export default function UsersPage() {
   return (
-    <div className="space-y-6 bg-white p-3 sm:p-6 rounded-lg ">
+    <div className="space-y-6 bg-white p-3 sm:p-6 rounded-lg">
       <UserHeader />
       <UsersTable
         users={MOCK_USERS}
