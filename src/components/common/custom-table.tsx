@@ -29,8 +29,8 @@ export type RowPinningRowState = {
   rowPinning: RowPinningState;
 };
 
-type TData = unknown;
-type TValue = unknown;
+// type TData = unknown;
+// type TValue = unknown;
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -83,9 +83,9 @@ const CustomTable = ({
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
                   {/* Pin to left control */}
                   {/* {
                     header.column.getIsPinned() ? 
