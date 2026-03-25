@@ -5,18 +5,22 @@ import { Input } from "@/components/ui/input";
 import AdminProfile from "./admin-profile";
 import { SidebarTrigger } from "../ui/sidebar";
 import { usePathname } from "next/navigation";
-import { getDashboardTitle } from "@/lib/get-dashboard-title";
 
 const DashboardNavbar = () => {
   const pathname = usePathname();
-  const title = getDashboardTitle(pathname);
-
+  const pageName = pathname
+    .split("/")
+    .filter(Boolean)
+    .pop()
+    ?.replace(/-/g, " ");
   return (
     <header className="w-full h-16 border-b bg-white flex items-center justify-between px-6">
       {/* Left Section */}
       <div className="flex items-center gap-4">
         <SidebarTrigger className="md:hidden" />
-        <h1 className="text-xl font-semibold tracking-tight"> {title}</h1>
+        <h1 className="text-xl font-semibold tracking-tight capitalize">
+          {pageName ? pageName : "Dashboard"}
+        </h1>
       </div>
 
       {/* Right Section */}

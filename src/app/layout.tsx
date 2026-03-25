@@ -1,6 +1,7 @@
 import { satoshi } from "@/fonts";
 import type { Metadata } from "next";
 import "./globals.css";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "PadiSquare | Admin page",
@@ -13,10 +14,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${satoshi.variable} ${satoshi.className} antialiased`}>
-        {children}
-      </body>
-    </html>
+    <Providers>
+      <html lang="en">
+        <body
+          className={`${satoshi.variable} ${satoshi.className} antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    </Providers>
   );
 }

@@ -1,0 +1,304 @@
+import { Product } from "@/components/product/product-table-columns";
+
+export const productsData: Product[] = [
+  {
+    id: 1,
+    name: "Wireless Noise-Cancelling Headphones",
+    image:
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80",
+    totalSold: 1240,
+    price: "$149.99",
+    quantityInStock: 85,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    stockStatus: "In Stock",
+    businessId: 101,
+    businessName: "SoundWave Electronics",
+    ownerEmail: "owner@soundwave.com",
+  },
+  {
+    id: 2,
+    name: "Minimalist Leather Watch",
+    image:
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
+    totalSold: 870,
+    price: "$229.00",
+    quantityInStock: 42,
+    stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 102,
+    businessName: "Timeless Goods",
+    ownerEmail: "hello@timelessgoods.com",
+  },
+  {
+    id: 3,
+    name: "Ceramic Pour-Over Coffee Set",
+    image:
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80",
+    totalSold: 2350,
+    price: "$59.99",
+    quantityInStock: 130,
+    stockStatus: "In Stock",
+    businessId: 103,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessName: "Brew & Co.",
+    ownerEmail: "shop@brewandco.com",
+  },
+  {
+    id: 4,
+    name: "Linen Tote Bag",
+    image:
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&q=80",
+    totalSold: 3100,
+    price: "$34.50",
+    quantityInStock: 0,
+    stockStatus: "Out of Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 104,
+    businessName: "Eco Carry",
+    ownerEmail: "info@ecocarry.io",
+  },
+  {
+    id: 5,
+    name: "Bamboo Desk Organizer",
+    image:
+      "https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=400&q=80",
+    totalSold: 980,
+    price: "$44.00",
+    quantityInStock: 210,
+    stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 105,
+    businessName: "Green Workspace",
+    ownerEmail: "desk@greenworkspace.com",
+  },
+  {
+    id: 6,
+    name: "Polaroid Instant Camera",
+    image:
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&q=80",
+    totalSold: 615,
+    price: "$89.95",
+    quantityInStock: 18,
+    stockStatus: "Low Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 106,
+    businessName: "Snap Moments",
+    ownerEmail: "sales@snapmoments.com",
+  },
+  {
+    id: 7,
+    name: "Scented Soy Candle Set",
+    image:
+      "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=400&q=80",
+    totalSold: 4200,
+    price: "$28.00",
+    quantityInStock: 320,
+    stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 107,
+    businessName: "Aura Home",
+    ownerEmail: "aura@aurahome.co",
+  },
+  {
+    id: 8,
+    name: "Stainless Steel Water Bottle",
+    image:
+      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&q=80",
+    totalSold: 5500,
+    price: "$24.99",
+    quantityInStock: 450,
+    stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 108,
+    businessName: "HydroLife",
+    ownerEmail: "store@hydrolife.com",
+  },
+  {
+    id: 9,
+    name: "Mechanical Keyboard",
+    image:
+      "https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=400&q=80",
+    totalSold: 730,
+    price: "$119.00",
+    quantityInStock: 55,
+    stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 109,
+    businessName: "KeyForge",
+    ownerEmail: "support@keyforge.dev",
+  },
+  {
+    id: 10,
+    name: "Succulent Plant Trio",
+    image:
+      "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=400&q=80",
+    totalSold: 1875,
+    price: "$19.99",
+    quantityInStock: 7,
+    stockStatus: "Low Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 110,
+    businessName: "Little Greens",
+    ownerEmail: "plants@littlegreens.shop",
+  },
+  {
+    id: 11,
+    name: "Yoga Mat (Non-Slip)",
+    image:
+      "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=400&q=80",
+    totalSold: 2690,
+    price: "$55.00",
+    quantityInStock: 160,
+    stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 111,
+    businessName: "Zenflow Fitness",
+    ownerEmail: "gear@zenflow.com",
+  },
+  {
+    id: 12,
+    name: "Hardcover Dot-Grid Journal",
+    image:
+      "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=400&q=80",
+    totalSold: 3340,
+    price: "$18.50",
+    quantityInStock: 500,
+    stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 112,
+    businessName: "Paper & Ink Studio",
+    ownerEmail: "hello@paperink.studio",
+  },
+  {
+    id: 13,
+    name: "Portable Bluetooth Speaker",
+    image:
+      "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&q=80",
+    totalSold: 1590,
+    price: "$79.00",
+    quantityInStock: 0,
+    stockStatus: "Out of Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 101,
+    businessName: "SoundWave Electronics",
+    ownerEmail: "owner@soundwave.com",
+  },
+  {
+    id: 14,
+    name: "Skincare Face Serum",
+    image:
+      "https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=400&q=80",
+    totalSold: 6100,
+    price: "$42.00",
+    quantityInStock: 280,
+    stockStatus: "In Stock",
+    businessId: 113,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessName: "Glow Lab",
+    ownerEmail: "beauty@glowlab.co",
+  },
+  {
+    id: 15,
+    name: "Wooden Chess Set",
+    image:
+      "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=400&q=80",
+    totalSold: 410,
+    price: "$65.00",
+    quantityInStock: 30,
+    stockStatus: "In Stock",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessId: 114,
+    businessName: "Classic Games Co.",
+    ownerEmail: "orders@classicgames.com",
+  },
+  {
+    id: 16,
+    name: "Cotton Knit Throw Blanket",
+    image:
+      "https://images.unsplash.com/photo-1580301762395-21ce84d00bc6?w=400&q=80",
+    totalSold: 2200,
+    price: "$49.99",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    quantityInStock: 95,
+    stockStatus: "In Stock",
+    businessId: 107,
+    businessName: "Aura Home",
+    ownerEmail: "aura@aurahome.co",
+  },
+  {
+    id: 17,
+    name: "Stainless Steel French Press",
+    image:
+      "https://images.unsplash.com/photo-1585515320310-259814833e62?w=400&q=80",
+    totalSold: 1450,
+    price: "$38.00",
+    quantityInStock: 12,
+    stockStatus: "Low Stock",
+    businessId: 103,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessName: "Brew & Co.",
+    ownerEmail: "shop@brewandco.com",
+  },
+  {
+    id: 18,
+    name: "Leather Card Wallet",
+    image:
+      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=400&q=80",
+    totalSold: 3870,
+    price: "$29.00",
+    quantityInStock: 200,
+    stockStatus: "In Stock",
+    businessId: 102,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    businessName: "Timeless Goods",
+    ownerEmail: "hello@timelessgoods.com",
+  },
+  {
+    id: 19,
+    name: "LED Desk Lamp",
+    image:
+      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&q=80",
+    totalSold: 920,
+    price: "$52.00",
+    quantityInStock: 75,
+    stockStatus: "In Stock",
+    businessId: 105,
+    businessName: "Green Workspace",
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    ownerEmail: "desk@greenworkspace.com",
+  },
+  {
+    id: 20,
+    name: "Resistance Band Set",
+    image:
+      "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=400&q=80",
+    totalSold: 4800,
+    price: "$22.99",
+    quantityInStock: 340,
+    description:
+      "A high-quality product designed for durability, performance, and everyday use. Combines modern design with reliable functionality.",
+    stockStatus: "In Stock",
+    businessId: 111,
+    businessName: "Zenflow Fitness",
+    ownerEmail: "gear@zenflow.com",
+  },
+];
