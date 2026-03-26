@@ -1,6 +1,6 @@
 "use client";
+import CustomButton from "@/components/common/custom-button";
 import { CustomTable } from "@/components/common/custom-table";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { websitesTableColumns } from "@/components/website/website-column";
 import WebsitesOverview from "@/components/website/website-overview";
@@ -17,10 +17,7 @@ const WebsiteHomepage = () => {
             placeholder="Search websites by title, URL, or owner..."
             className="flex-1"
           />
-          <Button>
-            <Search className="h-4 w-4 text-muted-foreground text-white" />
-            Search
-          </Button>
+          <CustomButton label="Search" leftIcon={<Search />} type="submit" />
         </div>
         <CustomTable
           data={websitesDummyData}
