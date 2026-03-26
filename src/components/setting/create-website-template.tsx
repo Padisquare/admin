@@ -64,7 +64,7 @@ const CreateWebsiteTemplate = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       {/* Trigger */}
       <DialogTrigger asChild>
-        <CustomButton label="Create Template" type="button" />
+        <CustomButton variant={'black'} label="Create Template" type="button" />
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[450px]">

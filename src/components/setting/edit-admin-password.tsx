@@ -71,7 +71,7 @@ const EditAdminPassword = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <CustomButton label="Rest Admin password" type="button" />
+        <CustomButton variant={'white'} label="Rest Admin password" type="button" />
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[450px]">

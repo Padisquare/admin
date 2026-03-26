@@ -61,7 +61,7 @@ const AdminInvite = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <CustomButton label="Invite Admin" type="button" />
+        <CustomButton variant={'black'} label="Invite Admin" type="button" />
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[450px]">
