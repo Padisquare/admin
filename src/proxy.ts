@@ -7,22 +7,24 @@ const authPaths = ["/login", "/forgot-password"];
 
 const protectedPaths = [
   "/",
-  "/product-requests*",
-  "/products*",
+  "/product-requests/:path*",
+  "/products/:path*",
   "/settings/:path*",
-  "/reels",
+  "/reels/:path*",
   "/users/:path*",
   "/websites/:path*",
 ];
 
 const matchPaths = (pathname: string, patterns: string[]) => {
   return patterns.some((pattern) => {
-    const regex = new RegExp("^" + pattern.replace(":path*", ".*") + "$");
+    const regex = new RegExp(
+      "^" + pattern.replace("/:path*", "(?:/.*)?") + "$",
+    );
     return regex.test(pathname);
   });
 };
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const authenticated = isAuthenticated(request);

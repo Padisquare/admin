@@ -77,7 +77,7 @@ const LoginForm = () => {
             )}
           </div>
 
-          <Button disabled={isSubmitting} className="w-full">{isSubmitting ? <Loader2 /> : "Sign in"}</Button>
+          <Button disabled={isSubmitting} className="w-full">{isSubmitting ? <Loader2 className="animate-spin" /> : "Sign in"}</Button>
         </form>
       </div>
     </div>
