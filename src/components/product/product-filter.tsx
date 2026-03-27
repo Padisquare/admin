@@ -8,6 +8,7 @@ import LGAs from "./LGAs";
 import SearchBar from "./search-bar";
 import { Filters, useProductFilters } from "@/context/ProductFilterContext";
 import { usePathname, useRouter } from "next/navigation";
+import CustomButton from "../common/custom-button";
 
 const ProductFilters = () => {
   const { filters, setFilter } = useProductFilters();
@@ -18,23 +19,23 @@ const ProductFilters = () => {
     setFilter(key, value);
   };
 
- const handleSearch = () => {
-   const { search, condition, endDate, lga, sort, startDate, state } = filters;
+  const handleSearch = () => {
+    const { search, condition, endDate, lga, sort, startDate, state } = filters;
 
-   const params = new URLSearchParams();
+    const params = new URLSearchParams();
 
-   if (search) params.set("search", search);
-   if (condition) params.set("condition", condition);
-   if (sort) params.set("sort", sort);
-   if (state) params.set("state", state);
-   if (lga) params.set("lga", lga);
-   if (startDate) params.set("startDate", startDate);
-   if (endDate) params.set("endDate", endDate);
+    if (search) params.set("search", search);
+    if (condition) params.set("condition", condition);
+    if (sort) params.set("sort", sort);
+    if (state) params.set("state", state);
+    if (lga) params.set("lga", lga);
+    if (startDate) params.set("startDate", startDate);
+    if (endDate) params.set("endDate", endDate);
 
-   const queryString = params.toString();
+    const queryString = params.toString();
 
-   router.push(`${pathname}${queryString ? `?${queryString}` : ""}`);
- };
+    router.push(`${pathname}${queryString ? `?${queryString}` : ""}`);
+  };
 
   return (
     <div className="bg-white p-4 rounded-xl border flex justify-between gap-4">
@@ -81,10 +82,12 @@ const ProductFilters = () => {
           onChange={(e) => handleChange("endDate", e.target.value)}
         />
         <SearchBar />
-        <Button onClick={handleSearch}>
-          <Search />
-          Search
-        </Button>
+        <CustomButton
+          type="submit"
+          leftIcon={<Search />}
+          label="Search"
+          onClick={handleSearch}
+        />
       </div>
     </div>
   );
