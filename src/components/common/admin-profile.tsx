@@ -1,6 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuthContext } from "@/context/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +12,8 @@ import {
 import { LogOut, Settings, User } from "lucide-react";
 
 export default function AdminProfile() {
+  const { resetToken } = useAuthContext();
+
   const admin = {
     name: "Admin User",
     email: "admin@padisquare.com",
@@ -18,7 +21,7 @@ export default function AdminProfile() {
   };
 
   const handleLogout = () => {
-    console.log("Admin logged out");
+    resetToken?.();
   };
 
   return (
