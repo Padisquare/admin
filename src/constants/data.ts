@@ -1,6 +1,7 @@
 import { Product } from "@/components/product/product-table-columns";
 import { Reel } from "@/components/reels/reels-column";
 import { Admin } from "@/components/setting/admin-column";
+import { Category } from "@/components/setting/category-column";
 import { Website } from "@/components/website/website-column";
 
 export const productsData: Product[] = [
@@ -499,7 +500,6 @@ export const adminsData: Admin[] = [
     role: "super_admin",
     status: "active",
     lastLogin: "2026-03-20T10:15:30Z",
-    createdAt: "2025-01-10T08:00:00Z",
   },
   {
     id: 2,
@@ -509,17 +509,15 @@ export const adminsData: Admin[] = [
     role: "admin",
     status: "active",
     lastLogin: "2026-03-22T14:22:10Z",
-    createdAt: "2025-02-18T11:30:00Z",
   },
   {
     id: 3,
     name: "Michael Brown",
     email: "michael.brown@example.com",
     avatar: "https://i.pravatar.cc/150?img=8",
-    role: "moderator",
+    role: "viewer",
     status: "inactive",
     lastLogin: "2026-02-10T09:00:00Z",
-    createdAt: "2025-03-05T09:45:00Z",
   },
   {
     id: 4,
@@ -529,17 +527,15 @@ export const adminsData: Admin[] = [
     role: "admin",
     status: "suspended",
     lastLogin: "2026-01-25T18:10:00Z",
-    createdAt: "2025-04-12T13:20:00Z",
   },
   {
     id: 5,
     name: "David Wilson",
     email: "david.wilson@example.com",
     avatar: "https://i.pravatar.cc/150?img=15",
-    role: "moderator",
+    role: "viewer",
     status: "active",
     lastLogin: "2026-03-23T07:50:00Z",
-    createdAt: "2025-05-01T10:10:00Z",
   },
   {
     id: 6,
@@ -549,17 +545,15 @@ export const adminsData: Admin[] = [
     role: "admin",
     status: "active",
     lastLogin: "2026-03-21T16:45:00Z",
-    createdAt: "2025-06-14T15:00:00Z",
   },
   {
     id: 7,
     name: "James Anderson",
     email: "james.anderson@example.com",
     avatar: "https://i.pravatar.cc/150?img=25",
-    role: "moderator",
+    role: "viewer",
     status: "inactive",
     lastLogin: "2025-12-30T12:00:00Z",
-    createdAt: "2025-07-22T09:00:00Z",
   },
   {
     id: 8,
@@ -569,7 +563,6 @@ export const adminsData: Admin[] = [
     role: "super_admin",
     status: "active",
     lastLogin: "2026-03-24T09:10:00Z",
-    createdAt: "2025-08-05T14:40:00Z",
   },
   {
     id: 9,
@@ -579,16 +572,73 @@ export const adminsData: Admin[] = [
     role: "admin",
     status: "suspended",
     lastLogin: "2026-02-01T08:25:00Z",
-    createdAt: "2025-09-11T17:15:00Z",
   },
   {
     id: 10,
     name: "Isabella Moore",
     email: "isabella.moore@example.com",
     avatar: "https://i.pravatar.cc/150?img=40",
-    role: "moderator",
+    role: "viewer",
     status: "active",
     lastLogin: "2026-03-23T20:05:00Z",
-    createdAt: "2025-10-19T12:30:00Z",
+  },
+];
+
+export const dummyCategories: Category[] = [
+  {
+    name: "Electronics",
+    description: "Devices, gadgets, and accessories",
+    noOfSubcategories: 5,
+    parentCategory: "None",
+    status: "active",
+  },
+  {
+    name: "Laptops",
+    description: "All kinds of laptops",
+    noOfSubcategories: 3,
+    parentCategory: "Electronics",
+    status: "active",
+  },
+  {
+    name: "Smartphones",
+    description: "Latest smartphones and mobile devices",
+    noOfSubcategories: 4,
+    parentCategory: "Electronics",
+    status: "in-active",
+  },
+  {
+    name: "Furniture",
+    description: "Home and office furniture",
+    noOfSubcategories: 2,
+    parentCategory: "None",
+    status: "active",
+  },
+  {
+    name: "Chairs",
+    description: "Office and dining chairs",
+    noOfSubcategories: 1,
+    parentCategory: "Furniture",
+    status: "active",
+  },
+  {
+    name: "Clothing",
+    description: "Men, women, and kids clothing",
+    noOfSubcategories: 6,
+    parentCategory: "None",
+    status: "active",
+  },
+  {
+    name: "Men's Wear",
+    description: "T-shirts, shirts, pants, and more",
+    noOfSubcategories: 3,
+    parentCategory: "Clothing",
+    status: "in-active",
+  },
+  {
+    name: "Women's Wear",
+    description: "Dresses, tops, skirts, and more",
+    noOfSubcategories: 3,
+    parentCategory: "Clothing",
+    status: "active",
   },
 ];

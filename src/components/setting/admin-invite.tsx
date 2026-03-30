@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import CustomButton from "../common/custom-button";
+import { UserPlus } from "lucide-react";
 
 interface InviteForm {
   name: string;
@@ -61,7 +62,12 @@ const AdminInvite = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <CustomButton variant={'black'} label="Invite Admin" type="button" />
+        <CustomButton
+          leftIcon={<UserPlus />}
+          variant={"primary"}
+          label="Invite Admin"
+          type="button"
+        />
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[450px]">

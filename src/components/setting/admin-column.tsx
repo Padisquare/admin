@@ -4,9 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
-import EditAdminPassword from "./edit-admin-password";
+import QuickAction from "./quick-action";
 
 export interface Admin {
   id: number;
@@ -14,37 +12,56 @@ export interface Admin {
   email: string;
   avatar?: string;
 
-  role: "super_admin" | "admin" | "moderator";
+  role: "super_admin" | "admin" | "editor" | "viewer";
 
   status: "active" | "inactive" | "suspended";
-
   lastLogin?: string;
-  createdAt: string;
 }
 
 export const adminsTableColumns: ColumnDef<Admin>[] = [
+  // Avatar column
   {
-    accessorKey: "name",
-    header: "Admin",
+    accessorKey: "avatar",
+    header: "",
     cell: ({ row }) => {
       const admin = row.original;
 
       return (
-        <Link href={`/admin/${admin.id}`}>
-          <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10">
-              <AvatarImage src={admin.avatar} />
-              <AvatarFallback>{admin.name.charAt(0)}</AvatarFallback>
-            </Avatar>
+        <Avatar className="h-10 w-10">
+          <AvatarImage src={admin.avatar} />
+          <AvatarFallback>{admin.name.charAt(0)}</AvatarFallback>
+        </Avatar>
+      );
+    },
+  },
 
-            <div className="flex flex-col">
-              <span className="font-medium">{admin.name}</span>
-              <span className="text-muted-foreground text-xs">
-                {admin.email}
-              </span>
-            </div>
-          </div>
+  // Name column
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => {
+      const admin = row.original;
+
+      return (
+        <Link
+          href={`/admin/${admin.id}`}
+          className="font-medium hover:underline"
+        >
+          {admin.name}
         </Link>
+      );
+    },
+  },
+
+  // Email column
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => {
+      return (
+        <span className="text-sm text-muted-foreground">
+          {row.original.email}
+        </span>
       );
     },
   },
@@ -60,9 +77,10 @@ export const adminsTableColumns: ColumnDef<Admin>[] = [
           className={cn(
             "px-2 py-1 rounded-md text-xs font-semibold capitalize",
             {
-              "bg-purple-100 text-purple-700": role === "super_admin",
-              "bg-blue-100 text-blue-700": role === "admin",
-              "bg-yellow-100 text-yellow-700": role === "moderator",
+              "bg-green-900 text-green-100": role === "super_admin",
+              "bg-green-700 text-white": role === "admin",
+              "bg-green-500 text-white": role === "editor",
+              "bg-green-100 text-green-700": role === "viewer",
             },
           )}
         >
@@ -97,7 +115,7 @@ export const adminsTableColumns: ColumnDef<Admin>[] = [
 
   {
     accessorKey: "lastLogin",
-    header: "Last Login",
+    header: "Last Active",
     cell: ({ row }) => {
       const lastLogin = row.original.lastLogin;
 
@@ -116,26 +134,11 @@ export const adminsTableColumns: ColumnDef<Admin>[] = [
   },
 
   {
-    accessorKey: "createdAt",
-    header: "Created",
-    cell: ({ row }) => {
-      const date = new Date(row.original.createdAt);
-
-      return (
-        <span className="text-sm text-muted-foreground">
-          {date.toLocaleDateString()}
-        </span>
-      );
-    },
-  },
-
-  {
     id: "actions",
     header: "",
     cell: ({ row }) => {
       const admin = row.original;
-
-      return <EditAdminPassword />;
+      return <QuickAction admin={admin} />;
     },
   },
 ];
