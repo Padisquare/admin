@@ -7,7 +7,7 @@ import {
 } from "@/types/auth.type";
 
 export const loginRequest = async (data: LoginDto) => {
-  return await requestHandler("post", "/auth/login", data);
+  return await requestHandler("post", "/auth/admin/login", data);
 };
 
 export const registerRequest = async (data: LoginDto) => {
@@ -22,7 +22,7 @@ export const verifyOtpRequest = async (data: VerifyOtpDto) => {
   return await requestHandler(
     "post",
     "/auth/verify-otp?purpose=forgot_password",
-    data
+    data,
   );
 };
 
