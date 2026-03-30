@@ -1,9 +1,9 @@
 "use client";
-import { User } from "@/app/(dashboard)/users/page";
 import { CustomTable } from "@/components/common/custom-table";
 import { usersColumns } from "./users-column";
+import { UserType } from "@/types/user.type";
 interface Props {
-    users: User[];
+    users: UserType[];
     loading?: boolean;
 }
 export default function UsersTable({ users, loading }: Props) {

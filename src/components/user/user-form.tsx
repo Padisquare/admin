@@ -1,66 +1,91 @@
 "use client"
-import { useRouter } from "next/navigation"
+import { CreateUserType } from "@/types/user.type"
 import CustomButton from "../common/custom-button"
 import CustomInput from "../common/custom-input"
+import { useUserForm } from "@/hooks/useUserform"
+import { CheckCircle, Loader2, UserIcon } from "lucide-react"
 
 type UserFormProps = {
     mode: "create" | "edit"
-    defaultValues?: {
-        firstname?: string
-        lastname?: string
-        username?: string
-        email?: string
-    }
+    userId?: string
+    defaultValues?: Partial<CreateUserType>;
 }
-
-export default function UserForm({ mode, defaultValues }: UserFormProps) {
-    const isEdit = mode === "edit"
-    const router = useRouter()
-
-    const handleSubmit = async (e: React.SubmitEvent) => {
-        e.preventDefault()
-        router.push("/users")
-    }
+export default function UserForm({ mode, userId, defaultValues }: UserFormProps) {
+    const {
+        register,
+        handleSubmit,
+        errors,
+        onSubmit,
+        isEdit,
+        isCheckingUsername,
+        isUsernameTaken,
+        isLoading,
+    } = useUserForm(mode, userId, defaultValues);
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4 pb-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pb-4">
             <CustomInput
-                name="firstname"
+                name="firstName"
                 label="First Name"
-                placeholder="Enter first name"
                 type="text"
-                defaultValue={defaultValues?.firstname}
+                placeholder="Enter first name "
+                register={register}
+                error={errors.firstName?.message}
                 required
             />
             <CustomInput
-                name="lastname"
+                name="lastName"
                 label="Last Name"
+                type="text"
                 placeholder="Enter last name"
-                type="text"
-                defaultValue={defaultValues?.lastname}
-                required
+                register={register}
+                error={errors.lastName?.message}
             />
-            <CustomInput
-                name="username"
-                label="Username"
-                placeholder="Enter username"
-                type="text"
-                defaultValue={defaultValues?.username}
-                required
-            />
+            <div>
+                <CustomInput
+                    name="username"
+                    label="Username"
+                    type="text"
+                    placeholder="Enter username"
+                    register={register}
+                    error={errors.username?.message}
+                    icon={
+                        isCheckingUsername ? (
+                            <Loader2
+                                className="h-4 w-4 text-brand-main animate-spin"
+                                strokeWidth={3}
+                            />
+                        ) : !isUsernameTaken && !isCheckingUsername ? (
+                            <CheckCircle className="h-4 w-4 text-brand-main" strokeWidth={3} />
+                        ) : (
+                            <UserIcon className="h-4 w-4 text-destructive" />
+                        )
+                    }
+                />
+            </div>
             <CustomInput
                 name="email"
                 label="Email"
-                placeholder="Enter email"
                 type="email"
-                defaultValue={defaultValues?.email}
-                required
+                placeholder="Enter Email"
+                register={register}
+                error={errors.email?.message}
+            />
+            <CustomInput
+                name="phoneNumber"
+                label="Phone Number"
+                type="tel"
+                placeholder="Enter Phone number"
+                register={register}
+                error={errors.phoneNumber?.message}
             />
             <CustomButton
                 type="submit"
                 label={isEdit ? "Update User" : "Create User"}
+                isLoading={isLoading}
                 className="w-full"
             />
+
         </form>
     )
 }

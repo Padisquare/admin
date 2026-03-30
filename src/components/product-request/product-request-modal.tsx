@@ -66,7 +66,7 @@ export default function ViewRequestModal({ request, open, onOpenChange }: ViewRe
                                 <UserIcon className="h-3 w-3" /> Requester
                             </p>
                             <p className="text-sm font-medium">
-                                {request.user.firstname} {request.user.lastname}
+                                {request?.user?.firstName} {request?.user?.lastName}
                             </p>
                         </div>
                         <div className="space-y-1">
