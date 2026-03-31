@@ -1,5 +1,7 @@
 import { Product } from "@/components/product/product-table-columns";
 import { Reel } from "@/components/reels/reels-column";
+import { Admin } from "@/components/setting/admin-column";
+import { Category } from "@/components/setting/category-column";
 import { Website } from "@/components/website/website-column";
 
 export const productsData: Product[] = [
@@ -378,8 +380,6 @@ export const reelsDummyData: Reel[] = [
   },
 ];
 
-
-
 export const websitesDummyData: Website[] = [
   {
     id: 1,
@@ -488,5 +488,157 @@ export const websitesDummyData: Website[] = [
 
     status: "flagged",
     createdAt: "2026-03-08T16:45:00Z",
+  },
+];
+
+export const adminsData: Admin[] = [
+  {
+    id: 1,
+    name: "John Doe",
+    email: "john.doe@example.com",
+    avatar: "https://i.pravatar.cc/150?img=1",
+    role: "super_admin",
+    status: "active",
+    lastLogin: "2026-03-20T10:15:30Z",
+  },
+  {
+    id: 2,
+    name: "Sarah Williams",
+    email: "sarah.williams@example.com",
+    avatar: "https://i.pravatar.cc/150?img=5",
+    role: "admin",
+    status: "active",
+    lastLogin: "2026-03-22T14:22:10Z",
+  },
+  {
+    id: 3,
+    name: "Michael Brown",
+    email: "michael.brown@example.com",
+    avatar: "https://i.pravatar.cc/150?img=8",
+    role: "viewer",
+    status: "inactive",
+    lastLogin: "2026-02-10T09:00:00Z",
+  },
+  {
+    id: 4,
+    name: "Emily Johnson",
+    email: "emily.johnson@example.com",
+    avatar: "https://i.pravatar.cc/150?img=12",
+    role: "admin",
+    status: "suspended",
+    lastLogin: "2026-01-25T18:10:00Z",
+  },
+  {
+    id: 5,
+    name: "David Wilson",
+    email: "david.wilson@example.com",
+    avatar: "https://i.pravatar.cc/150?img=15",
+    role: "viewer",
+    status: "active",
+    lastLogin: "2026-03-23T07:50:00Z",
+  },
+  {
+    id: 6,
+    name: "Sophia Martinez",
+    email: "sophia.martinez@example.com",
+    avatar: "https://i.pravatar.cc/150?img=20",
+    role: "admin",
+    status: "active",
+    lastLogin: "2026-03-21T16:45:00Z",
+  },
+  {
+    id: 7,
+    name: "James Anderson",
+    email: "james.anderson@example.com",
+    avatar: "https://i.pravatar.cc/150?img=25",
+    role: "viewer",
+    status: "inactive",
+    lastLogin: "2025-12-30T12:00:00Z",
+  },
+  {
+    id: 8,
+    name: "Olivia Thomas",
+    email: "olivia.thomas@example.com",
+    avatar: "https://i.pravatar.cc/150?img=30",
+    role: "super_admin",
+    status: "active",
+    lastLogin: "2026-03-24T09:10:00Z",
+  },
+  {
+    id: 9,
+    name: "Daniel Taylor",
+    email: "daniel.taylor@example.com",
+    avatar: "https://i.pravatar.cc/150?img=35",
+    role: "admin",
+    status: "suspended",
+    lastLogin: "2026-02-01T08:25:00Z",
+  },
+  {
+    id: 10,
+    name: "Isabella Moore",
+    email: "isabella.moore@example.com",
+    avatar: "https://i.pravatar.cc/150?img=40",
+    role: "viewer",
+    status: "active",
+    lastLogin: "2026-03-23T20:05:00Z",
+  },
+];
+
+export const dummyCategories: Category[] = [
+  {
+    name: "Electronics",
+    description: "Devices, gadgets, and accessories",
+    noOfSubcategories: 5,
+    parentCategory: "None",
+    status: "active",
+  },
+  {
+    name: "Laptops",
+    description: "All kinds of laptops",
+    noOfSubcategories: 3,
+    parentCategory: "Electronics",
+    status: "active",
+  },
+  {
+    name: "Smartphones",
+    description: "Latest smartphones and mobile devices",
+    noOfSubcategories: 4,
+    parentCategory: "Electronics",
+    status: "in-active",
+  },
+  {
+    name: "Furniture",
+    description: "Home and office furniture",
+    noOfSubcategories: 2,
+    parentCategory: "None",
+    status: "active",
+  },
+  {
+    name: "Chairs",
+    description: "Office and dining chairs",
+    noOfSubcategories: 1,
+    parentCategory: "Furniture",
+    status: "active",
+  },
+  {
+    name: "Clothing",
+    description: "Men, women, and kids clothing",
+    noOfSubcategories: 6,
+    parentCategory: "None",
+    status: "active",
+  },
+  {
+    name: "Men's Wear",
+    description: "T-shirts, shirts, pants, and more",
+    noOfSubcategories: 3,
+    parentCategory: "Clothing",
+    status: "in-active",
+  },
+  {
+    name: "Women's Wear",
+    description: "Dresses, tops, skirts, and more",
+    noOfSubcategories: 3,
+    parentCategory: "Clothing",
+    status: "active",
   },
 ];
