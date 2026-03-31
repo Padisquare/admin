@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import UserHeader from "@/components/user/users-header";
@@ -16,8 +16,9 @@ export default function UsersPageClient() {
     const queryClient = useQueryClient();
 
     const currentPage = Number(searchParams.get("page")) || 1;
+    const currentSearch = searchParams.get("search") || "";
 
-    const { data, isPending } = useUsersQuery(currentPage);
+    const { data, isPending } = useUsersQuery(currentPage, currentSearch);
 
     const users = data?.entity?.items || [];
     const totalPages = data?.entity?.pages || 1;
@@ -26,25 +27,33 @@ export default function UsersPageClient() {
     useEffect(() => {
         if (hasNextPage) {
             queryClient.prefetchQuery({
-                queryKey: ["users", currentPage + 1],
-                queryFn: () => fetchAllUsers(currentPage + 1),
+                queryKey: ["users", currentPage + 1, currentSearch],
+                queryFn: () => fetchAllUsers(currentPage + 1, 25, currentSearch),
             });
         }
-    }, [currentPage, hasNextPage, queryClient]);
+    }, [currentPage, hasNextPage, currentSearch, queryClient]);
 
-    const createPageURL = (pageNumber: number | string) => {
+    const handleSearch = useCallback((term: string) => {
         const params = new URLSearchParams(searchParams);
-        params.set("page", pageNumber.toString());
-        return `${pathname}?${params.toString()}`;
-    };
+        if (term === (searchParams.get("search") || "")) return;
+        if (term) {
+            params.set("search", term);
+            params.set("page", "1");
+        } else {
+            params.delete("search");
+        }
+        router.push(`${pathname}?${params.toString()}`);
+    }, [searchParams, pathname, router]);
 
     const handlePageChange = (newPage: number) => {
-        router.push(createPageURL(newPage));
+        const params = new URLSearchParams(searchParams);
+        params.set("page", newPage.toString());
+        router.push(`${pathname}?${params.toString()}`);
     };
 
     return (
         <div className="space-y-6 bg-white p-3 sm:p-6 rounded-lg">
-            <UserHeader />
+            <UserHeader onSearch={handleSearch} />
             <UsersTable users={users} loading={isPending} />
             <CustomPagination
                 handlePreviousPage={() => {

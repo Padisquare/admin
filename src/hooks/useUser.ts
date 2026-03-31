@@ -11,10 +11,10 @@ import {
 import { toast } from "sonner";
 import { DeleteUserResponse, UserResponse } from "@/types/user.type";
 
-export const useUsersQuery = (page: number) => {
+export const useUsersQuery = (page: number, search?: string) => {
   return useQuery({
-    queryKey: ["users", page],
-    queryFn: () => fetchAllUsers(page),
+    queryKey: ["users", page, search],
+    queryFn: () => fetchAllUsers(page, 25, search),
     staleTime: 1000 * 60 * 5,
   });
 };

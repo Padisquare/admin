@@ -23,8 +23,15 @@ export const checkUsernameAvailabilityRequest = cache(
     return await requestHandler("get", `/users/username/${username}`);
   },
 );
-export const fetchAllUsers = async (page = 1, limit = 25) => {
-  return await requestHandler("get", `/users?page=${page}&limit=${limit}`);
+export const fetchAllUsers = async (page = 1, limit = 25, search?: string) => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    limit: limit.toString(),
+  });
+  if (search) {
+    params.append("search", search);
+  }
+  return await requestHandler("get", `/users?${params.toString()}`);
 };
 export const deleteUserByIdRequest = async (userId: string) => {
   return await requestHandler("delete", `/admin/users/${userId}`);
