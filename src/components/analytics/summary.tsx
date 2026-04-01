@@ -32,7 +32,7 @@ const Summary = ({ analytics }: { analytics: AnalyticsData }) => {
       icon: ClipboardList,
       color: "text-orange-600",
       bg: "bg-orange-50",
-      sub: `${analytics.productRequests.open} currently open`,
+      sub: `${analytics.productRequests.open} open / ${analytics.productRequests.closed} closed`,
 
     },
     {
@@ -46,7 +46,7 @@ const Summary = ({ analytics }: { analytics: AnalyticsData }) => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
       {stats.map((stat) => (
         <div
           key={stat.title}

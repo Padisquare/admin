@@ -14,7 +14,7 @@ const DashboardRootLayout = ({ children }: Props) => {
       <DashboardSidebar />
       <main className="flex flex-col gap-5 min-h-screen w-screen bg-muted">
         <DashboardNavbar />
-        <div className="px-5 flex-1 pt-5 pb-10">{children}</div>
+        <div className="px-4 md:px-5 flex-1 pt-5 pb-10">{children}</div>
       </main>
     </SidebarProvider>
   );
