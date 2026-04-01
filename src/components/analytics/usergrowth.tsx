@@ -1,10 +1,11 @@
+import { AnalyticsData } from "@/types/analytics.type";
 import BaseGrowthChart from "../common/reuseable-areachart";
 
-export const UserGrowthChart = ({ analytics }: any) => {
+export const UserGrowthChart = ({ analytics }: { analytics: AnalyticsData }) => {
     const data = [
-        { name: "24h", value: analytics.users.newLast24Hours },
-        { name: "7d", value: analytics.users.newLast7Days },
-        { name: "30d", value: analytics.users.newLast30Days },
+        { name: "24h", value: analytics.users.newLast24Hours ?? 0 },
+        { name: "7d", value: analytics.users.newLast7Days ?? 0 },
+        { name: "30d", value: analytics.users.newLast30Days ?? 0 },
     ];
 
     return (

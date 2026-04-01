@@ -1,6 +1,7 @@
+import { AnalyticsData } from "@/types/analytics.type";
 import { formatNumberToKMB } from "@/utils/formatNumber";
 
-export const MarketplaceCard = ({ analytics }: any) => {
+export const MarketplaceCard = ({ analytics }: { analytics: AnalyticsData }) => {
     const val = analytics.marketplace.estimatedActiveListingsValue;
     return (
         <div className="relative overflow-hidden p-8 rounded-3xl bg-slate-950 text-white shadow-2xl">

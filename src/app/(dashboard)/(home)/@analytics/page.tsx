@@ -1,8 +1,7 @@
-import Summary from "@/components/analytics/summary";
-import React from "react";
+import AnalyticsClient from "@/components/analytics/analytics-client";
 
 const AnalyticsPage = () => {
-  return <Summary />;
+  return <AnalyticsClient />;
 };
 
 export default AnalyticsPage;

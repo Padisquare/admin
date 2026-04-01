@@ -1,11 +1,12 @@
+import { AnalyticsData } from "@/types/analytics.type";
 import { MessageCircle, Star, ShieldCheck, Clock } from "lucide-react";
 
-export const OperationalStats = ({ analytics }: any) => {
+export const OperationalStats = ({ analytics }: { analytics: AnalyticsData }) => {
     const items = [
-        { label: "Messages", val: analytics.messaging.messages, icon: MessageCircle, color: "text-blue-500" },
-        { label: "Ratings", val: analytics.productRatings.total, icon: Star, color: "text-yellow-500" },
-        { label: "Waitlist", val: analytics.waitlist.total, icon: Clock, color: "text-slate-500" },
-        { label: "Admins", val: analytics.admins.total, icon: ShieldCheck, color: "text-rose-500" },
+        { label: "Messages", val: analytics.messaging.messages ?? 0, icon: MessageCircle, color: "text-blue-500" },
+        { label: "Ratings", val: analytics.productRatings.total ?? 0, icon: Star, color: "text-yellow-500" },
+        { label: "Waitlist", val: analytics.waitlist.total ?? 0, icon: Clock, color: "text-slate-500" },
+        { label: "Admins", val: analytics.admins.total ?? 0, icon: ShieldCheck, color: "text-rose-500" },
     ];
 
     return (

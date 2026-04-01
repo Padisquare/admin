@@ -1,12 +1,13 @@
 "use client";
+import { AnalyticsData } from "@/types/analytics.type";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
-export const SocialEngagementCard = ({ analytics }: any) => {
+export const SocialEngagementCard = ({ analytics }: { analytics: AnalyticsData }) => {
     const data = [
-        { name: "Likes", value: analytics.engagement.likes, color: "#3b82f6" },
-        { name: "Comments", value: analytics.engagement.comments, color: "#8b5cf6" },
-        { name: "Shares", value: analytics.engagement.reposts, color: "#10b981" },
-        { name: "Stories", value: analytics.stories.total, color: "#f59e0b" },
+        { name: "Likes", value: analytics.engagement.likes ?? 0, color: "#3b82f6" },
+        { name: "Comments", value: analytics.engagement.comments ?? 0, color: "#8b5cf6" },
+        { name: "Shares", value: analytics.engagement.reposts ?? 0, color: "#10b981" },
+        { name: "Stories", value: analytics.stories.total ?? 0, color: "#f59e0b" },
         { name: "Mentions", value: analytics.contactMessages.total, color: "#ec4899" },
     ];
 
