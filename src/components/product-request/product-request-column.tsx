@@ -45,14 +45,14 @@ export const requestColumns: ColumnDef<ProductRequest>[] = [
             return (
                 <div className="flex items-center gap-2">
                     <Avatar className="h-10 w-10">
-                        <AvatarImage src={user.avatar} />
+                        <AvatarImage src={user?.avatarUrl} />
                         <AvatarFallback className="text-[10px]">
-                            {user.firstname[0]}{user.lastname[0]}
+                            {user?.firstName[0]}{user?.lastName[0]}
                         </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col leading-none">
-                        <span className="text-sm font-medium">{user.firstname}</span>
-                        <span className="text-[10px] text-muted-foreground">@{user.username}</span>
+                        <span className="text-sm font-medium">{user?.firstName}</span>
+                        <span className="text-[10px] text-muted-foreground">@{user?.username}</span>
                     </div>
                 </div>
             )

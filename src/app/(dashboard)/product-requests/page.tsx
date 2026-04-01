@@ -1,6 +1,6 @@
 import ProductRequestHeader from "@/components/product-request/product-request-header";
 import ProductRequestTable from "@/components/product-request/product-request-table";
-import { MOCK_USERS, User } from "../users/page";
+import { UserType } from "@/types/user.type";
 
 export type RequestStatus = "pending" | "in-progress" | "fulfilled" | "canceled";
 export type ItemCondition = "brand-new" | "like-new" | "used";
@@ -17,7 +17,7 @@ export interface ProductRequest {
   status: RequestStatus;
   createdAt: string;
   updatedAt: string;
-  user: User;
+  user?: UserType;
 }
 export const MOCK_REQUESTS: ProductRequest[] = [
   {
@@ -32,7 +32,6 @@ export const MOCK_REQUESTS: ProductRequest[] = [
     status: "pending",
     createdAt: "2026-03-10T14:00:00Z",
     updatedAt: "2026-03-10T14:00:00Z",
-    user: MOCK_USERS[2],
   },
   {
     id: "PRQ-9902",
@@ -46,7 +45,6 @@ export const MOCK_REQUESTS: ProductRequest[] = [
     status: "in-progress",
     createdAt: "2026-03-11T09:30:00Z",
     updatedAt: "2026-03-12T10:15:00Z",
-    user: MOCK_USERS[1]
   },
   {
     id: "PRQ-9903",
@@ -60,7 +58,6 @@ export const MOCK_REQUESTS: ProductRequest[] = [
     status: "fulfilled",
     createdAt: "2026-03-05T16:45:00Z",
     updatedAt: "2026-03-08T11:20:00Z",
-    user: MOCK_USERS[3]
   },
   {
     id: "PRQ-9904",
@@ -74,7 +71,6 @@ export const MOCK_REQUESTS: ProductRequest[] = [
     status: "pending",
     createdAt: "2026-03-12T08:20:00Z",
     updatedAt: "2026-03-12T08:20:00Z",
-    user: MOCK_USERS[0]
   }
 ];
 const ProductRequestsHomepage = () => {

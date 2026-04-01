@@ -1,7 +1,47 @@
-import { ChangeUserPasswordType, UpdateUserType } from "@/types/user.type";
+import {
+  ChangeUserPasswordType,
+  CreateUserType,
+  UpdateUserType,
+} from "@/types/user.type";
 import { requestHandler } from "@/utils/requestHandler";
 import { cache } from "react";
 
+export const createUserRequest = async (data: CreateUserType) => {
+  return await requestHandler("post", "/admin/users", data);
+};
+export const updateUserRequest = async (
+  userId: string,
+  data: CreateUserType,
+) => {
+  return await requestHandler("patch", `admin/users/${userId}`, data);
+};
+export const fetchUserByIdRequest = async (userId: string) => {
+  return await requestHandler("get", `/users/${userId}`);
+};
+export const checkUsernameAvailabilityRequest = cache(
+  async (username: string) => {
+    return await requestHandler("get", `/users/username/${username}`);
+  },
+);
+export const fetchAllUsers = async (page = 1, limit = 25, search?: string) => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    limit: limit.toString(),
+  });
+  if (search) {
+    params.append("search", search);
+  }
+  return await requestHandler("get", `/users?${params.toString()}`);
+};
+export const deleteUserByIdRequest = async (userId: string) => {
+  return await requestHandler("delete", `/admin/users/${userId}`);
+};
+export const deactivateUserByIdRequest = async (userId: string) => {
+  return await requestHandler("post", `/admin/users/${userId}/deactivate`);
+};
+export const activateUserByIdRequest = async (userId: string) => {
+  return await requestHandler("post", `/admin/users/${userId}/activate`);
+};
 export const searchUsersRequest = cache(async (q: string) => {
   return await requestHandler("get", `/users?search=${encodeURIComponent(q)}`);
 });
@@ -28,13 +68,6 @@ export const fetchUserFeedsRequest = cache(
     );
   },
 );
-
-export const updateUserRequest = async (
-  userId: string,
-  data: UpdateUserType,
-) => {
-  return await requestHandler("put", `/users/${userId}`, data);
-};
 
 export const followUserRequest = async (userId: string) => {
   return await requestHandler("post", `/users/${userId}/follow`, {});

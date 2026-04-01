@@ -1,0 +1,25 @@
+import { AnalyticsData } from "@/types/analytics.type";
+import { MessageCircle, MessagesSquare, Star, ShieldCheck, Clock, Mail } from "lucide-react";
+
+export const OperationalStats = ({ analytics }: { analytics: AnalyticsData }) => {
+    const items = [
+        { label: "Messages", val: analytics.messaging.messages ?? 0, icon: MessageCircle, color: "text-blue-500" },
+        { label: "Conversations", val: analytics.messaging.conversations ?? 0, icon: MessagesSquare, color: "text-indigo-500" },
+        { label: "Contact Messages", val: analytics.contactMessages.total ?? 0, icon: Mail, color: "text-fuchsia-500" },
+        { label: "Ratings", val: analytics.productRatings.total ?? 0, icon: Star, color: "text-yellow-500" },
+        { label: "Waitlist", val: analytics.waitlist.total ?? 0, icon: Clock, color: "text-slate-500" },
+        { label: "Admins", val: analytics.admins.total ?? 0, icon: ShieldCheck, color: "text-rose-500" },
+    ];
+
+    return (
+        <div className="grid grid-cols-2 gap-4">
+            {items.map((item) => (
+                <div key={item.label} className="p-4 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                    <item.icon className={`h-4 w-4 ${item.color} mb-3`} />
+                    <p className="text-[10px] uppercase font-semibold text-slate-400">{item.label}</p>
+                    <p className="text-xl font-bold text-slate-800">{item.val}</p>
+                </div>
+            ))}
+        </div>
+    );
+};
