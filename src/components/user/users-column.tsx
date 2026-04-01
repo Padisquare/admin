@@ -54,19 +54,23 @@ export const usersColumns: ColumnDef<UserType>[] = [
             );
         },
     },
-    {
-        accessorKey: "createdAt",
-        header: "Joined",
-        cell: ({ row }) => {
-            return <span className="text-gray-600">{formatOnlyDate(row.original.createdAt)}</span>;
-
-        },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Joined",
+    cell: ({ row }) => {
+      return (
+        <span className="text-gray-600">
+          {formatOnlyDate(row.original.createdAt)}
+        </span>
+      );
     },
-    {
-        id: "actions",
-        header: "",
-        cell: ({ row }) => {
-            return <UsersActions user={row.original} />;
-        },
+  },
+  {
+    id: "actions",
+    header: "",
+    cell: ({ row }) => {
+      return <UsersActions user={row.original} />;
     },
+  },
 ];
