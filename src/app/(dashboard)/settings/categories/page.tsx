@@ -4,12 +4,14 @@ import CustomPagination from "@/components/common/custom-pagination";
 import { CustomTable } from "@/components/common/custom-table";
 import AddCategoryModal from "@/components/setting/add-category-modal";
 import { categoriesTableColumns } from "@/components/setting/category-column";
-import { dummyCategories } from "@/constants/data";
+import { useCategories } from "@/hooks/useCategories";
 import { CirclePlus } from "lucide-react";
 import { useState } from "react";
 
 const CategoriesHomepage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { categories, isLoading, createCategory, isCreating } = useCategories();
+
   return (
     <div className="bg-white pt-2">
       <div className="flex justify-end">
@@ -22,22 +24,33 @@ const CategoriesHomepage = () => {
       </div>
       <div className="p-5">
         <CustomTable
-          data={dummyCategories}
-          loading={false}
+          data={categories}
+          loading={isLoading}
           columns={categoriesTableColumns}
+          emptyState={{ title: "No Categories Found", message: "Category list is empty" }}
         />
       </div>
       <AddCategoryModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        parentCategories={["Electronics", "Cosmetics"]}
-        onAddCategory={() => {}}
+        onCreate={(data) => {
+          createCategory(
+            { ...data, parentCategoryId: data.parentCategoryId || "" },
+            {
+              onSuccess: () => {
+                setIsModalOpen(false);
+              },
+            }
+          );
+        }}
+        isSubmitting={isCreating}
+        parentCategories={categories}
       />
       <div className="flex justify-between items-center w-full bg-[#F0F5F2] p-2">
         <p className="w-full font-semibold">showing 5 of 12 categories</p>
         <CustomPagination
-          handleNextPage={() => {}}
-          handlePreviousPage={() => {}}
+          handleNextPage={() => { }}
+          handlePreviousPage={() => { }}
         />
       </div>
     </div>

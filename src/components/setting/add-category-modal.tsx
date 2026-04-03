@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,33 +10,35 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-interface Category {
-  name: string;
-  description: string;
-  noOfSubcategories: number;
-  parentCategory: string;
-  status: "active" | "in-active";
-}
-
 interface Props {
   open: boolean;
   onClose: () => void;
-  parentCategories: string[];
-  onAddCategory: (category: Category) => void;
+  parentCategories: { _id: string; name: string }[];
+  onCreate: (data: { name: string; description: string; parentCategoryId?: string }) => void;
+  isSubmitting: boolean;
 }
 
 const AddCategoryModal: React.FC<Props> = ({
   open,
   onClose,
   parentCategories,
-  onAddCategory,
+  onCreate,
+  isSubmitting,
 }) => {
   const [form, setForm] = useState({
     name: "",
     description: "",
-    parentCategory: "",
-    status: "active" as "active" | "in-active",
+    parentCategoryId: "",
   });
+  useEffect(() => {
+    if (!open) {
+      setForm({
+        name: "",
+        description: "",
+        parentCategoryId: "",
+      });
+    }
+  }, [open]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -47,21 +49,11 @@ const AddCategoryModal: React.FC<Props> = ({
   };
 
   const handleSubmit = () => {
-    const newCategory: Category = {
+    if (!form.name) return;
+    onCreate({
       name: form.name,
       description: form.description,
-      parentCategory: form.parentCategory || "None",
-      status: form.status,
-      noOfSubcategories: 0,
-    };
-
-    onAddCategory(newCategory);
-    onClose();
-    setForm({
-      name: "",
-      description: "",
-      parentCategory: "",
-      status: "active",
+      ...(form.parentCategoryId && { parentCategoryId: form.parentCategoryId }),
     });
   };
 
@@ -96,34 +88,17 @@ const AddCategoryModal: React.FC<Props> = ({
             </label>
             <select
               id="parentCategory"
-              name="parentCategory"
-              value={form.parentCategory}
+              name="parentCategoryId"
+              value={form.parentCategoryId}
               onChange={handleChange}
               className="border rounded px-2 py-1"
             >
               <option value="">None</option>
               {parentCategories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
+                <option key={cat._id} value={cat._id}>
+                  {cat.name}
                 </option>
               ))}
-            </select>
-          </div>
-
-          {/* Status Native Select */}
-          <div className="flex flex-col">
-            <label htmlFor="status" className="text-sm font-medium mb-1">
-              Status
-            </label>
-            <select
-              id="status"
-              name="status"
-              value={form.status}
-              onChange={handleChange}
-              className="border rounded px-2 py-1"
-            >
-              <option value="active">Active</option>
-              <option value="in-active">In-active</option>
             </select>
           </div>
         </div>
@@ -132,7 +107,7 @@ const AddCategoryModal: React.FC<Props> = ({
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit}>Add Category</Button>
+          <Button onClick={handleSubmit}> {isSubmitting ? "Adding..." : "Add Category"}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

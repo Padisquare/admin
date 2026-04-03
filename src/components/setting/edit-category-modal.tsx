@@ -12,13 +12,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-import { Category } from "./category-column";
+import { useCategories } from "@/hooks/useCategories";
+import { CategoryType } from "@/types/category.type";
+import { Loader2Icon } from "lucide-react";
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  category: Category;
-  parentCategories: string[]; // available parent categories
+  category: CategoryType;
+  parentCategories: { _id: string; name: string }[]; // available parent categories
 }
 
 const EditCategoryModal: React.FC<Props> = ({
@@ -27,44 +29,61 @@ const EditCategoryModal: React.FC<Props> = ({
   category,
   parentCategories,
 }) => {
-  const [form, setForm] = useState({
+  type FormState = {
+    name: string;
+    description: string;
+    parentCategoryId: string;
+    isActive: boolean;
+  };
+
+  const [form, setForm] = useState<FormState>({
     name: "",
     description: "",
-    parentCategory: "",
-    status: "active" as "active" | "in-active",
+    parentCategoryId: "",
+    isActive: category.isActive ?? true,
   });
+  const { updateCategory, isUpdating } = useCategories();
 
   // Prefill form when modal opens or category changes
   useEffect(() => {
-    if (category) {
+    if (category && open) {
       setForm({
-        name: category.name,
-        description: category.description,
-        parentCategory:
-          category.parentCategory === "None" ? "" : category.parentCategory,
-        status: category.status,
+        name: category.name || "",
+        description: category.description || "",
+        parentCategoryId:
+          typeof category.parentCategory === "object"
+            ? category.parentCategory?._id ?? ""
+            : category.parentCategory ?? "",
+        isActive: category.isActive ?? true,
       });
     }
-  }, [category]);
+  }, [category, open]);
 
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "isActive" ? value === "true" : value,
+    }));
   };
 
   const handleSubmit = () => {
-    const updatedCategory: Category = {
-      ...category,
+    const payload = {
       name: form.name,
       description: form.description,
-      parentCategory: form.parentCategory || "None",
-      status: form.status,
+      parentCategoryId: form.parentCategoryId || null, // API usually prefers null or empty string for root
+      isActive: form.isActive,
     };
-
-    onOpenChange(false);
+    updateCategory(
+      { id: category._id, data: payload },
+      {
+        onSuccess: () => onOpenChange(false),
+      }
+    );
   };
 
   return (
@@ -73,7 +92,6 @@ const EditCategoryModal: React.FC<Props> = ({
         <DialogHeader>
           <DialogTitle>Edit Category</DialogTitle>
         </DialogHeader>
-
         <div className="space-y-4">
           <Input
             name="name"
@@ -87,7 +105,6 @@ const EditCategoryModal: React.FC<Props> = ({
             value={form.description}
             onChange={handleChange}
           />
-
           {/* Parent Category Select */}
           <div className="flex flex-col">
             <label
@@ -98,17 +115,17 @@ const EditCategoryModal: React.FC<Props> = ({
             </label>
             <select
               id="parentCategory"
-              name="parentCategory"
-              value={form.parentCategory}
+              name="parentCategoryId"
+              value={form.parentCategoryId}
               onChange={handleChange}
               className="border rounded px-2 py-1"
             >
-              <option value="">None</option>
+              <option value="">Parent Category (None)</option>
               {parentCategories
-                .filter((cat) => cat !== category.name) // prevent selecting itself as parent
+                .filter((cat) => cat._id !== category._id)
                 .map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
                   </option>
                 ))}
             </select>
@@ -121,13 +138,13 @@ const EditCategoryModal: React.FC<Props> = ({
             </label>
             <select
               id="status"
-              name="status"
-              value={form.status}
+              name="isActive"
+              value={form.isActive.toString()}
               onChange={handleChange}
               className="border rounded px-2 py-1"
             >
-              <option value="active">Active</option>
-              <option value="in-active">In-active</option>
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
             </select>
           </div>
         </div>
@@ -136,7 +153,9 @@ const EditCategoryModal: React.FC<Props> = ({
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit}>Save</Button>
+          <Button onClick={handleSubmit} disabled={isUpdating}>
+            {isUpdating ? <Loader2Icon className="animate-spin" /> : "Save"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
