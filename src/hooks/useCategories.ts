@@ -31,7 +31,6 @@ export const useCategories = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
       toast.success(data?.message);
-      console.log("Delete response:", data);
     },
     onError: (error: any) => toast.error(error.message),
   });
