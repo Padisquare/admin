@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { addCategorySchema, AddCategoryFormData } from "@/validation/category.validation";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +17,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   parentCategories: { _id: string; name: string }[];
-  onCreate: (data: { name: string; description: string; parentCategoryId?: string }) => void;
+  onCreate: (data: AddCategoryFormData) => void;
   isSubmitting: boolean;
 }
 
@@ -25,37 +28,22 @@ const AddCategoryModal: React.FC<Props> = ({
   onCreate,
   isSubmitting,
 }) => {
-  const [form, setForm] = useState({
-    name: "",
-    description: "",
-    parentCategoryId: "",
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<AddCategoryFormData>({
+    resolver: zodResolver(addCategorySchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      parentCategoryId: "",
+    },
   });
   useEffect(() => {
-    if (!open) {
-      setForm({
-        name: "",
-        description: "",
-        parentCategoryId: "",
-      });
-    }
-  }, [open]);
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = () => {
-    if (!form.name) return;
-    onCreate({
-      name: form.name,
-      description: form.description,
-      ...(form.parentCategoryId && { parentCategoryId: form.parentCategoryId }),
-    });
-  };
+    if (!open) reset();
+  }, [open, reset]);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -64,34 +52,24 @@ const AddCategoryModal: React.FC<Props> = ({
           <DialogTitle>Add New Category</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <Input
-            name="name"
-            placeholder="Category Name"
-            value={form.name}
-            onChange={handleChange}
-          />
-          <Textarea
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleChange}
-          />
+        <form onSubmit={handleSubmit(onCreate)} className="space-y-4">
+          <div>
+            <Input {...register("name")} placeholder="Category Name" />
+            {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
+          </div>
 
-          {/* Parent Category Native Select */}
+          <div>
+            <Textarea {...register("description")} placeholder="Description" />
+            {errors.description && <p className="text-xs text-red-500 mt-1">{errors.description.message}</p>}
+          </div>
+
           <div className="flex flex-col">
-            <label
-              htmlFor="parentCategory"
-              className="text-sm font-medium mb-1"
-            >
+            <label htmlFor="parentCategory" className="text-sm font-medium mb-1">
               Parent Category
             </label>
             <select
-              id="parentCategory"
-              name="parentCategoryId"
-              value={form.parentCategoryId}
-              onChange={handleChange}
-              className="border rounded px-2 py-1"
+              {...register("parentCategoryId")}
+              className="border rounded px-2 py-1 bg-white"
             >
               <option value="">None</option>
               {parentCategories.map((cat) => (
@@ -100,15 +78,20 @@ const AddCategoryModal: React.FC<Props> = ({
                 </option>
               ))}
             </select>
+            {errors.parentCategoryId && (
+              <p className="text-xs text-red-500 mt-1">{errors.parentCategoryId.message}</p>
+            )}
           </div>
-        </div>
 
-        <DialogFooter>
-          <Button variant="ghost" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit}> {isSubmitting ? "Adding..." : "Add Category"}</Button>
-        </DialogFooter>
+          <DialogFooter className="pt-4">
+            <Button type="button" variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Adding..." : "Add Category"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

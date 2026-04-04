@@ -1,6 +1,7 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { categorySchema, CategoryFormData } from "@/validation/category.validation";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-
 import { useCategories } from "@/hooks/useCategories";
 import { CategoryType } from "@/types/category.type";
 import { Loader2Icon } from "lucide-react";
@@ -20,7 +20,7 @@ interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   category: CategoryType;
-  parentCategories: { _id: string; name: string }[]; // available parent categories
+  parentCategories: { _id: string; name: string }[];
 }
 
 const EditCategoryModal: React.FC<Props> = ({
@@ -29,55 +29,39 @@ const EditCategoryModal: React.FC<Props> = ({
   category,
   parentCategories,
 }) => {
-  type FormState = {
-    name: string;
-    description: string;
-    parentCategoryId: string;
-    isActive: boolean;
-  };
-
-  const [form, setForm] = useState<FormState>({
-    name: "",
-    description: "",
-    parentCategoryId: "",
-    isActive: category.isActive ?? true,
-  });
   const { updateCategory, isUpdating } = useCategories();
 
-  // Prefill form when modal opens or category changes
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CategoryFormData>({
+    resolver: zodResolver(categorySchema),
+  });
+
   useEffect(() => {
     if (category && open) {
-      setForm({
+      reset({
         name: category.name || "",
         description: category.description || "",
         parentCategoryId:
           typeof category.parentCategory === "object"
             ? category.parentCategory?._id ?? ""
-            : category.parentCategory ?? "",
+            : (category.parentCategory as string) ?? "",
         isActive: category.isActive ?? true,
       });
     }
-  }, [category, open]);
+  }, [category, open, reset]);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: name === "isActive" ? value === "true" : value,
-    }));
-  };
-
-  const handleSubmit = () => {
+  const onFormSubmit = (data: CategoryFormData) => {
     const payload = {
-      name: form.name,
-      description: form.description,
-      parentCategoryId: form.parentCategoryId || null, // API usually prefers null or empty string for root
-      isActive: form.isActive,
+      ...data,
+      name: data.name.trim(),
+      description: data.description || "",
+      parentCategoryId: data.parentCategoryId || null || "",
     };
+
     updateCategory(
       { id: category._id, data: payload },
       {
@@ -92,34 +76,23 @@ const EditCategoryModal: React.FC<Props> = ({
         <DialogHeader>
           <DialogTitle>Edit Category</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
-          <Input
-            name="name"
-            placeholder="Category Name"
-            value={form.name}
-            onChange={handleChange}
-          />
-          <Textarea
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleChange}
-          />
-          {/* Parent Category Select */}
+
+        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
+          <div>
+            <Input {...register("name")} placeholder="Category Name" />
+            {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
+          </div>
+
+          <div>
+            <Textarea {...register("description")} placeholder="Description" />
+            {errors.description && (
+              <p className="text-xs text-red-500 mt-1">{errors.description.message}</p>
+            )}
+          </div>
+
           <div className="flex flex-col">
-            <label
-              htmlFor="parentCategory"
-              className="text-sm font-medium mb-1"
-            >
-              Parent Category
-            </label>
-            <select
-              id="parentCategory"
-              name="parentCategoryId"
-              value={form.parentCategoryId}
-              onChange={handleChange}
-              className="border rounded px-2 py-1"
-            >
+            <label className="text-sm font-medium mb-1">Parent Category</label>
+            <select {...register("parentCategoryId")} className="border rounded px-2 py-1 bg-white">
               <option value="">Parent Category (None)</option>
               {parentCategories
                 .filter((cat) => cat._id !== category._id)
@@ -129,34 +102,34 @@ const EditCategoryModal: React.FC<Props> = ({
                   </option>
                 ))}
             </select>
+            {errors.parentCategoryId && (
+              <p className="text-xs text-red-500 mt-1">{errors.parentCategoryId.message}</p>
+            )}
           </div>
 
-          {/* Status Select */}
           <div className="flex flex-col">
-            <label htmlFor="status" className="text-sm font-medium mb-1">
-              Status
-            </label>
+            <label className="text-sm font-medium mb-1">Status</label>
             <select
-              id="status"
-              name="isActive"
-              value={form.isActive.toString()}
-              onChange={handleChange}
-              className="border rounded px-2 py-1"
+              {...register("isActive", { setValueAs: (v) => v === "true" })}
+              className="border rounded px-2 py-1 bg-white"
             >
               <option value="true">Active</option>
               <option value="false">Inactive</option>
             </select>
+            {errors.isActive && (
+              <p className="text-xs text-red-500 mt-1">{errors.isActive.message}</p>
+            )}
           </div>
-        </div>
 
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} disabled={isUpdating}>
-            {isUpdating ? <Loader2Icon className="animate-spin" /> : "Save"}
-          </Button>
-        </DialogFooter>
+          <DialogFooter className="pt-4">
+            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isUpdating}>
+              {isUpdating ? <Loader2Icon className="animate-spin" /> : "Save"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
