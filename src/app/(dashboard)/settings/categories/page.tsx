@@ -1,20 +1,33 @@
 "use client";
 import CustomButton from "@/components/common/custom-button";
-import CustomPagination from "@/components/common/custom-pagination";
 import { CustomTable } from "@/components/common/custom-table";
 import AddCategoryModal from "@/components/setting/add-category-modal";
 import { categoriesTableColumns } from "@/components/setting/category-column";
+import { Input } from "@/components/ui/input";
 import { useCategories } from "@/hooks/useCategories";
-import { CirclePlus } from "lucide-react";
-import { useState } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
+import { CirclePlus, Search } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const CategoriesHomepage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { categories, isLoading, createCategory, isCreating } = useCategories();
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearch = useDebounce(searchTerm, 500);
+
 
   return (
     <div className="bg-white pt-2">
-      <div className="flex justify-end">
+      <div className=" px-5 py-3 flex items-center justify-between gap-5">
+        <div className="relative w-72">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <Input
+            placeholder="Search Categories..."
+            className="pl-10 h-11 border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         <CustomButton
           type="button"
           label="Add Category"
@@ -35,7 +48,11 @@ const CategoriesHomepage = () => {
         onClose={() => setIsModalOpen(false)}
         onCreate={(data) => {
           createCategory(
-            { ...data, parentCategoryId: data.parentCategoryId || "" },
+            {
+              ...data,
+              parentCategoryId: data.parentCategoryId || "",
+              description: data.description || "",
+            },
             {
               onSuccess: () => {
                 setIsModalOpen(false);
@@ -46,13 +63,6 @@ const CategoriesHomepage = () => {
         isSubmitting={isCreating}
         parentCategories={categories}
       />
-      <div className="flex justify-between items-center w-full bg-[#F0F5F2] p-2">
-        <p className="w-full font-semibold">showing 5 of 12 categories</p>
-        <CustomPagination
-          handleNextPage={() => { }}
-          handlePreviousPage={() => { }}
-        />
-      </div>
     </div>
   );
 };
