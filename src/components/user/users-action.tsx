@@ -10,35 +10,47 @@ import {
     DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { User } from "@/app/(dashboard)/users/page"
 import { ConfirmActionDialog } from "./confirmation-dialog"
 import ViewProfileModal from "./users-profile"
+import { UserType } from "@/types/user.type"
+import { useDeactivateUser, useDeleteUser, useReactivateUser } from "@/hooks/useUser"
+
 
 interface UsersActionsProps {
-    user: User
+    user: UserType
 }
-type DialogType = "view" | "deactivate" | "delete"
+type DialogType = "view" | "deactivate" | "delete" | "reactivate"
 
 export default function UsersActions({ user }: UsersActionsProps) {
     const router = useRouter()
     const [activeDialog, setActiveDialog] = useState<DialogType | null>(null)
     const [isPending, startTransition] = useTransition()
+    const deleteMutation = useDeleteUser();
+    const deactivateMutation = useDeactivateUser();
+    const reactivateMutation = useReactivateUser();
+
+    const isActive = user.isActive === true;
+    const isLoading =
+        isPending ||
+        deleteMutation.isPending ||
+        deactivateMutation.isPending;
 
     const handleAction = (type: DialogType | "edit") => {
         if (type === "edit") {
-            router.push(`/users/${user.id}/edit`)
+            router.push(`/users/${user.id}/edit`);
             return
         }
         setActiveDialog(type)
     }
-    const onConfirmAction = async (type: "delete" | "deactivate") => {
+    const onConfirmAction = async (type: "delete" | "deactivate" | "reactivate") => {
         startTransition(async () => {
             try {
                 if (type === "delete") {
-                    // await deleteUser(user.id)
-                }
-                if (type === "deactivate") {
-                    // await deactivateUser(user.id)
+                    await deleteMutation.mutateAsync(user.id);
+                } else if (type === "deactivate") {
+                    await deactivateMutation.mutateAsync(user.id);
+                } else if (type === "reactivate") {
+                    await reactivateMutation.mutateAsync(user.id);
                 }
                 setActiveDialog(null)
             } catch (error) {
@@ -55,17 +67,18 @@ export default function UsersActions({ user }: UsersActionsProps) {
                 onOpenChange={(open) => !open && setActiveDialog(null)}
             />
             <ConfirmActionDialog
-                open={activeDialog === "deactivate"}
+                open={activeDialog === "deactivate" || activeDialog === "reactivate"}
                 onOpenChange={(open) => !open && setActiveDialog(null)}
                 isLoading={isPending}
-                title="Deactivate User"
+                title={isActive ? "Deactivate User" : "Reactivate User"}
                 description={
                     <>
-                        Are you sure you want to deactivate <strong>{user.firstname} {user.lastname}</strong>?
+                        Are you sure you want to {isActive ? "deactivate" : "reactivate"}{" "}
+                        <strong>{user.firstName} {user.lastName}</strong>?
                     </>
                 }
-                confirmText="Deactivate"
-                onConfirm={() => onConfirmAction("deactivate")}
+                confirmText={isActive ? "Deactivate" : "Reactivate"}
+                onConfirm={() => onConfirmAction(isActive ? "deactivate" : "reactivate")}
             />
             <ConfirmActionDialog
                 open={activeDialog === "delete"}
@@ -75,7 +88,7 @@ export default function UsersActions({ user }: UsersActionsProps) {
                 variant="destructive"
                 description={
                     <>
-                        Are you sure you want to delete <strong>{user.firstname} {user.lastname}</strong>?
+                        Are you sure you want to delete <strong>{user.firstName} {user.lastName}</strong>?
                     </>
                 }
                 confirmText="Delete User"
@@ -105,7 +118,7 @@ export default function UsersActions({ user }: UsersActionsProps) {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onSelect={() => { handleAction("deactivate") }}>
                         <Ban className="mr-2 h-4 w-4" />
-                        Deactivate
+                        {isActive ? "Deactivate" : "Reactivate"} User
                     </DropdownMenuItem>
                     <DropdownMenuItem onSelect={() => { handleAction("delete") }}
                         className="text-red-600 focus:text-red-600 focus:bg-red-50">
