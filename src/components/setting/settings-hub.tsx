@@ -98,7 +98,7 @@ export default function SettingsHub() {
           </div>
         </div>
 
-        <div className="rounded-[45px] md:col-span-2 shadow-sm bg-white p-6 flex flex-col justify-between hover:shadow-md transition">
+        <Link href="/settings/categories" className="rounded-[45px] md:col-span-2 shadow-sm bg-white p-6 flex flex-col justify-between hover:shadow-md transition">
           <div>
             <div className="flex flex-col gap-3 mb-4">
               <div className="p-3 bg-gray-100 rounded-full w-fit">
@@ -110,8 +110,7 @@ export default function SettingsHub() {
               Organize your botanical catalog with custom names and complex
               nesting hierarchies for a seamless user experience.
             </p>
-            <Link
-              href={"/settings/categories"}
+            <div
               className="flex flex-wrap gap-2"
             >
               <span className="px-3 py-1 text-xs bg-gray-100 rounded-full">
@@ -123,10 +122,10 @@ export default function SettingsHub() {
               <span className="px-3 py-1 text-xs bg-gray-100 rounded-full">
                 +12 MORE
               </span>
-            </Link>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
-    </div>
+    </div >
   );
 }

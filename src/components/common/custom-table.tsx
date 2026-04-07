@@ -4,6 +4,7 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getExpandedRowModel,
 } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
 import {
@@ -49,10 +50,18 @@ const CustomTable = ({
   loading,
   emptyState,
 }: DataTableProps<TData, TValue>) => {
+  const [expanded, setExpanded] = React.useState({});
+
   const table = useReactTable({
     data: data ?? [],
     columns,
+    state: {
+      expanded,
+    },
+    onExpandedChange: setExpanded,
+    getSubRows: (row: any) => row.childCategories,
     getCoreRowModel: getCoreRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
     enableRowPinning: true,
     keepPinnedRows: true,
   });

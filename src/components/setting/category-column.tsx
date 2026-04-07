@@ -1,30 +1,38 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Switch } from "@/components/ui/switch"; // assuming you have a Switch component
-import { cn } from "@/lib/utils";
-import { Badge } from "../ui/badge";
+import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import CategoryQuickAction from "./category-quick-action";
+import { ChevronsDownIcon, ChevronsRightIcon } from "lucide-react";
+import { CategoryType } from "@/types/category.type";
 
-export interface Category {
-  name: string;
-  description: string;
-  noOfSubcategories: number;
-  parentCategory: string;
-  status: "active" | "in-active";
-}
-
-export const categoriesTableColumns: ColumnDef<Category>[] = [
+export const categoriesTableColumns: ColumnDef<CategoryType>[] = [
   {
     accessorKey: "name",
     header: "Category Name",
     cell: ({ row }) => {
-      const category = row.original;
+      const { name, childCategories } = row.original;
       return (
-        <div className="flex flex-col">
-          <span className="font-medium">{category.name}</span>
-          <span className="text-xs text-muted-foreground">
-            {category.noOfSubcategories} subcategories
-          </span>
+        <div
+          className="flex items-end-safe gap-2"
+          style={{ paddingLeft: `${row.depth * 40}px` }}
+        >
+          {row.getCanExpand() && (
+            <button
+              type="button"
+              onClick={row.getToggleExpandedHandler()}
+              className="cursor-pointer"
+            >
+              {row.getIsExpanded() ? <ChevronsDownIcon size={20} /> : <ChevronsRightIcon size={20} />}
+            </button>
+          )}
+          <div className="flex flex-col">
+            <span className="font-medium">{name}</span>
+            {childCategories?.length > 0 && (
+              <span className="text-[10px] text-muted-foreground">
+                {childCategories.length} subcategories
+              </span>
+            )}
+          </div>
         </div>
       );
     },
@@ -39,23 +47,12 @@ export const categoriesTableColumns: ColumnDef<Category>[] = [
       </span>
     ),
   },
-
-  {
-    accessorKey: "parentCategory",
-    header: "Parent Category",
-    cell: ({ row }) => (
-      <Badge className="text-sm font-semibold text-[#3E4A3E] bg-[#EAEFEC]">
-        {row.original.parentCategory || "None"}
-      </Badge>
-    ),
-  },
-
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
       const category = row.original;
-      const [isActive, setIsActive] = useState(category.status === "active");
+      const [isActive, setIsActive] = useState(category.isActive);
 
       return (
         <Switch

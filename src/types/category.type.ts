@@ -1,12 +1,18 @@
 export type CategoryType = {
   _id: string;
   name: string;
-  description: string;
-  isActive: boolean;
-  parentCategory: string;
-  childCategories: CategoryType[];
-  productCount: number;
   slug: string;
+  isActive: boolean;
+  productCount: number;
   createdAt: string;
   updatedAt: string;
+  childCategories: (CategoryType | string)[];
+  description?: string;
+  parentCategory?: CategoryType | string | null;
+};
+
+export type CategoriesResponse = {
+  title: string;
+  message: string;
+  entity: CategoryType[];
 };

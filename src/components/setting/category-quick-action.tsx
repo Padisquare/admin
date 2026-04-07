@@ -3,25 +3,23 @@
 import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { ConfirmActionDialog } from "../user/confirmation-dialog";
-import { Category } from "./category-column";
 import EditCategoryModal from "./edit-category-modal";
+import { useCategories } from "@/hooks/useCategories";
+import { CategoryType } from "@/types/category.type";
 
 interface Props {
-  category: Category;
+  category: CategoryType;
 }
 
 const CategoryQuickAction = ({ category }: Props) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { deleteCategory, isDeleting, categories, createCategory } = useCategories();
 
   const handleDelete = async () => {
-    try {
-      setIsLoading(true);
-      setDeleteOpen(false);
-    } finally {
-      setIsLoading(false);
-    }
+    deleteCategory(category._id, {
+      onSuccess: () => setDeleteOpen(false),
+    });
   };
 
   return (
@@ -47,7 +45,7 @@ const CategoryQuickAction = ({ category }: Props) => {
         description={`Are you sure you want to delete "${category.name}"?`}
         confirmText="Delete"
         variant="destructive"
-        isLoading={isLoading}
+        isLoading={isDeleting}
         onConfirm={handleDelete}
       />
 
@@ -55,7 +53,7 @@ const CategoryQuickAction = ({ category }: Props) => {
         category={category}
         open={editOpen}
         onOpenChange={setEditOpen}
-        parentCategories={["Electronics", "Cosmetics"]}
+        parentCategories={categories}
       />
     </>
   );

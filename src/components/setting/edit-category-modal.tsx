@@ -1,6 +1,7 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { categorySchema, CategoryFormData } from "@/validation/category.validation";
 import {
   Dialog,
   DialogContent,
@@ -11,14 +12,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-
-import { Category } from "./category-column";
+import { useCategories } from "@/hooks/useCategories";
+import { CategoryType } from "@/types/category.type";
+import { Loader2Icon } from "lucide-react";
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  category: Category;
-  parentCategories: string[]; // available parent categories
+  category: CategoryType;
+  parentCategories: { _id: string; name: string }[];
 }
 
 const EditCategoryModal: React.FC<Props> = ({
@@ -27,44 +29,45 @@ const EditCategoryModal: React.FC<Props> = ({
   category,
   parentCategories,
 }) => {
-  const [form, setForm] = useState({
-    name: "",
-    description: "",
-    parentCategory: "",
-    status: "active" as "active" | "in-active",
+  const { updateCategory, isUpdating } = useCategories();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CategoryFormData>({
+    resolver: zodResolver(categorySchema),
   });
 
-  // Prefill form when modal opens or category changes
   useEffect(() => {
-    if (category) {
-      setForm({
-        name: category.name,
-        description: category.description,
-        parentCategory:
-          category.parentCategory === "None" ? "" : category.parentCategory,
-        status: category.status,
+    if (category && open) {
+      reset({
+        name: category.name || "",
+        description: category.description || "",
+        parentCategoryId:
+          typeof category.parentCategory === "object"
+            ? category.parentCategory?._id ?? ""
+            : (category.parentCategory as string) ?? "",
+        isActive: category.isActive ?? true,
       });
     }
-  }, [category]);
+  }, [category, open, reset]);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = () => {
-    const updatedCategory: Category = {
-      ...category,
-      name: form.name,
-      description: form.description,
-      parentCategory: form.parentCategory || "None",
-      status: form.status,
+  const onFormSubmit = (data: CategoryFormData) => {
+    const payload = {
+      ...data,
+      name: data.name.trim(),
+      description: data.description || "",
+      parentCategoryId: data.parentCategoryId || null || "",
     };
 
-    onOpenChange(false);
+    updateCategory(
+      { id: category._id, data: payload },
+      {
+        onSuccess: () => onOpenChange(false),
+      }
+    );
   };
 
   return (
@@ -74,70 +77,59 @@ const EditCategoryModal: React.FC<Props> = ({
           <DialogTitle>Edit Category</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <Input
-            name="name"
-            placeholder="Category Name"
-            value={form.name}
-            onChange={handleChange}
-          />
-          <Textarea
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleChange}
-          />
+        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
+          <div>
+            <Input {...register("name")} placeholder="Category Name" />
+            {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
+          </div>
 
-          {/* Parent Category Select */}
+          <div>
+            <Textarea {...register("description")} placeholder="Description" />
+            {errors.description && (
+              <p className="text-xs text-red-500 mt-1">{errors.description.message}</p>
+            )}
+          </div>
+
           <div className="flex flex-col">
-            <label
-              htmlFor="parentCategory"
-              className="text-sm font-medium mb-1"
-            >
-              Parent Category
-            </label>
-            <select
-              id="parentCategory"
-              name="parentCategory"
-              value={form.parentCategory}
-              onChange={handleChange}
-              className="border rounded px-2 py-1"
-            >
-              <option value="">None</option>
+            <label className="text-sm font-medium mb-1">Parent Category</label>
+            <select {...register("parentCategoryId")} className="border rounded px-2 py-1 bg-white">
+              <option value="">Parent Category (None)</option>
               {parentCategories
-                .filter((cat) => cat !== category.name) // prevent selecting itself as parent
+                .filter((cat) => cat._id !== category._id)
                 .map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
                   </option>
                 ))}
             </select>
+            {errors.parentCategoryId && (
+              <p className="text-xs text-red-500 mt-1">{errors.parentCategoryId.message}</p>
+            )}
           </div>
 
-          {/* Status Select */}
           <div className="flex flex-col">
-            <label htmlFor="status" className="text-sm font-medium mb-1">
-              Status
-            </label>
+            <label className="text-sm font-medium mb-1">Status</label>
             <select
-              id="status"
-              name="status"
-              value={form.status}
-              onChange={handleChange}
-              className="border rounded px-2 py-1"
+              {...register("isActive", { setValueAs: (v) => v === "true" })}
+              className="border rounded px-2 py-1 bg-white"
             >
-              <option value="active">Active</option>
-              <option value="in-active">In-active</option>
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
             </select>
+            {errors.isActive && (
+              <p className="text-xs text-red-500 mt-1">{errors.isActive.message}</p>
+            )}
           </div>
-        </div>
 
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit}>Save</Button>
-        </DialogFooter>
+          <DialogFooter className="pt-4">
+            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isUpdating}>
+              {isUpdating ? <Loader2Icon className="animate-spin" /> : "Save"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
