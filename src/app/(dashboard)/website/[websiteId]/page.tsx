@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import EditWebsiteModal from "@/components/website/edit-website-modal";
+import EditWebsiteModal from "@/components/website/edit-webtemp-page";
 
 const WebsiteDetailsPage = () => {
   const [openModal, setOpenModal] = useState(false);
