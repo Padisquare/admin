@@ -1,18 +1,20 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 export type Filters = {
-  sort: string;
-  condition: string;
-  state: string;
-  lga: string;
-  startDate: string;
-  endDate: string;
-  search: string;
+  sort?: string;
+  condition?: string;
+  state?: string;
+  lga?: string;
+  startDate?: string;
+  endDate?: string;
+  search?: string;
 };
 
 type ProductFilterContextType = {
   filters: Filters;
+  appliedFilters: Filters;
   setFilter: (key: keyof Filters, value: string) => void;
+  applyFilters: () => void;
   resetFilters: () => void;
 };
 
@@ -24,37 +26,45 @@ type ProductFilterProviderProps = {
   children: ReactNode;
 };
 
+const initialFilters: Filters = {
+  sort: "",
+  condition: "",
+  state: "",
+  lga: "",
+  startDate: "",
+  endDate: "",
+  search: "",
+};
+
 export const ProductFilterProvider: React.FC<ProductFilterProviderProps> = ({
   children,
 }) => {
-  const [filters, setFilters] = useState<Filters>({
-    sort: "",
-    condition: "",
-    state: "",
-    lga: "",
-    startDate: "",
-    endDate: "",
-    search: "",
-  });
+  const [filters, setFilters] = useState<Filters>(initialFilters);
+  const [appliedFilters, setAppliedFilters] = useState<Filters>(initialFilters);
 
   const setFilter = (key: keyof Filters, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
+  const applyFilters = () => {
+    setAppliedFilters(filters);
+  };
+
   const resetFilters = () => {
-    setFilters({
-      sort: "",
-      condition: "",
-      state: "",
-      lga: "",
-      startDate: "",
-      endDate: "",
-      search: "",
-    });
+    setFilters(initialFilters);
+    setAppliedFilters(initialFilters);
   };
 
   return (
-    <ProductFilterContext.Provider value={{ filters, setFilter, resetFilters }}>
+    <ProductFilterContext.Provider
+      value={{
+        filters,
+        appliedFilters,
+        setFilter,
+        applyFilters,
+        resetFilters,
+      }}
+    >
       {children}
     </ProductFilterContext.Provider>
   );
@@ -69,5 +79,3 @@ export const useProductFilters = () => {
   }
   return context;
 };
-
-export default ProductFilterContext;

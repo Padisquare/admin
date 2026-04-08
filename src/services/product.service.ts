@@ -2,12 +2,22 @@ import { UploadProductDto } from "@/types/product.type";
 import { requestHandler } from "@/utils/requestHandler";
 import { cache } from "react";
 
+export type ProductsQuery = {
+  condition?: string;
+  lga?: string;
+  state?: string;
+  search?: string;
+};
+
 export const fetchProducts = cache(
-  async (query: string, page: number, limit: number) => {
-    return await requestHandler(
-      "get",
-      `/products?${query}&page=${page}&limit=${limit}`,
-    );
+  async (params: ProductsQuery, page: number, limit: number) => {
+    const queryString = new URLSearchParams({
+      ...params,
+      page: String(page),
+      limit: String(limit),
+    }).toString();
+
+    return await requestHandler("get", `/products?${queryString}`);
   },
 );
 

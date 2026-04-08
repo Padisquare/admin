@@ -1,39 +1,46 @@
 "use client";
 
-import { useState } from "react";
 import CustomPagination from "@/components/common/custom-pagination";
 import { CustomTable } from "@/components/common/custom-table";
-import { productTableColumns } from "@/components/product/product-table-columns";
-import { productsData } from "@/constants/data";
 import ProductFilters from "@/components/product/product-filter";
-
-const ITEMS_PER_PAGE = 5;
+import { productTableColumns } from "@/components/product/product-table-columns";
+import { useProductFilters } from "@/context/ProductFilterContext";
+import { useGetProducts } from "@/hooks/use-product";
+import { useState } from "react";
 
 const ProductHomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const {
+    appliedFilters: { condition, state, lga, search },
+  } = useProductFilters();
 
-  const totalPages = Math.ceil(productsData.length / ITEMS_PER_PAGE);
-
-  const paginatedData = productsData.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE,
-  );
+  const { data, isPending } = useGetProducts({
+    params: { condition, search, state, lga },
+    page: currentPage,
+    limit: 10,
+  });
+  const products = data ? data.entity.items : [];
+  const pagination = data?.entity;
 
   const handleNextPage = () => {
-    setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev));
+    if (pagination?.hasNextPage) {
+      setCurrentPage((prev) => prev + 1);
+    }
   };
 
   const handlePreviousPage = () => {
-    setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
+    if (pagination?.hasPrevPage) {
+      setCurrentPage((prev) => prev - 1);
+    }
   };
 
   return (
     <section className="bg-white px-5 pb-10 pt-5">
       <ProductFilters />
       <CustomTable
-        data={paginatedData}
+        data={products}
         columns={productTableColumns}
-        loading={false}
+        loading={isPending}
         emptyState={{
           title: "No Products",
           message: "There are no products available",
