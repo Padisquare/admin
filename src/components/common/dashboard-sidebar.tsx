@@ -13,11 +13,13 @@ import {
 } from "@/components/ui/sidebar";
 
 import { cn } from "@/lib/utils";
+import { url } from "inspector";
 import {
   ClipboardList,
   Film,
   Globe,
   LayoutDashboard,
+  LayoutPanelLeft,
   Package,
   Settings,
   Users,
@@ -59,9 +61,14 @@ const items = [
     icon: Film,
   },
   {
+    title: "Websit",
+    url: "/websit",
+    icon: Globe,
+  },
+  {
     title: "Website",
     url: "/website",
-    icon: Globe,
+    icon: LayoutPanelLeft,
   },
   {
     title: "Settings",
