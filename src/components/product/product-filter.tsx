@@ -1,17 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "../ui/button";
-import { Search } from "lucide-react";
-import States from "./states";
-import LGAs from "./LGAs";
-import SearchBar from "./search-bar";
 import { Filters, useProductFilters } from "@/context/ProductFilterContext";
+import { Search } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import CustomButton from "../common/custom-button";
+import LGAs from "./LGAs";
+import SearchBar from "./search-bar";
+import States from "./states";
 
 const ProductFilters = () => {
-  const { filters, setFilter } = useProductFilters();
+  const { filters, setFilter, applyFilters } = useProductFilters();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -33,6 +31,7 @@ const ProductFilters = () => {
     if (endDate) params.set("endDate", endDate);
 
     const queryString = params.toString();
+    applyFilters()
 
     router.push(`${pathname}${queryString ? `?${queryString}` : ""}`);
   };

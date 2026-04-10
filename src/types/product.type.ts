@@ -57,3 +57,57 @@ export type UploadProductDto = UploadProductRequestDto & {
   categoryId: string;
   unitPrice: number;
 };
+
+type Category = {
+  _id: string;
+  name: string;
+  description: string;
+  isActive: boolean;
+  parentCategory?: Category;
+};
+
+type Seller = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+};
+
+export type Product = {
+  _id: string;
+  name: string;
+  description: string;
+  condition: "brand_new" | "used"; 
+  unitPrice: number;
+
+  state: string;
+  lga: string;
+
+  packshots: string[];
+
+  averageRating: number;
+  ratingCount: number;
+  commentCount: number;
+  likeCount: number;
+  repostCount: number;
+  isLiked: boolean;
+
+  category: Category;
+  seller: Seller;
+  closedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ProductsResponse = {
+  entity: {
+    items: Product[];
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+    limit: string;
+    page: string;
+    pages: string;
+    total: number;
+  };
+};
