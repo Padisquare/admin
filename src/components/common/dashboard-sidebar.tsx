@@ -40,11 +40,6 @@ const items = [
     url: "/users",
     icon: Users,
   },
-  // {
-  //   title: "Analytics",
-  //   url: "/analytics",
-  //   icon: BarChart3,
-  // },
   {
     title: "Products",
     url: "/products",
@@ -61,13 +56,13 @@ const items = [
     icon: Film,
   },
   {
-    title: "Websit",
-    url: "/websit",
+    title: "Websites",
+    url: "/websites",
     icon: Globe,
   },
   {
-    title: "Website",
-    url: "/website",
+    title: "Website Templates",
+    url: "/website-templates",
     icon: LayoutPanelLeft,
   },
   {

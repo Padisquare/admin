@@ -69,63 +69,34 @@ export default function SettingsHub() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="rounded-[45px] shadow-sm bg-[#E4E9E6] p-6 flex flex-col justify-between hover:shadow-md transition">
-          <div>
-            <div className="flex flex-col gap-3 mb-4">
-              <div className="p-3 bg-[#006B2C] rounded-full w-fit">
-                <Image
-                  src={"/template-icon.svg"}
-                  alt="password icon"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              <h2 className="text-lg font-medium">Manage Website Templates</h2>
+      <Link
+        href="/settings/categories"
+        className="rounded-[45px] shadow-sm bg-white p-6 flex flex-col justify-between hover:shadow-md transition"
+      >
+        <div>
+          <div className="flex flex-col gap-3 mb-4">
+            <div className="p-3 bg-gray-100 rounded-full w-fit">
+              <FolderKanban className="text-[#006B2C]" />
             </div>
-            <p className="text-gray-500 text-sm">
-              Edit, create, or activate site designs that define your digital
-              presence.
-            </p>
+            <h2 className="text-lg font-medium">Manage Categories</h2>
           </div>
-          <div className="mt-6">
-            <Link
-              href={"/settings/templates"}
-              className="rounded-full px-5 py-2 border text-sm font-medium bg-gray-100"
-            >
-              Browse Gallery
-            </Link>
+          <p className="text-gray-500 text-sm mb-4">
+            Organize your botanical catalog with custom names and complex
+            nesting hierarchies for a seamless user experience.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <span className="px-3 py-1 text-xs bg-gray-100 rounded-full">
+              FERNS
+            </span>
+            <span className="px-3 py-1 text-xs bg-gray-100 rounded-full">
+              SUCCULENTS
+            </span>
+            <span className="px-3 py-1 text-xs bg-gray-100 rounded-full">
+              +12 MORE
+            </span>
           </div>
         </div>
-
-        <Link href="/settings/categories" className="rounded-[45px] md:col-span-2 shadow-sm bg-white p-6 flex flex-col justify-between hover:shadow-md transition">
-          <div>
-            <div className="flex flex-col gap-3 mb-4">
-              <div className="p-3 bg-gray-100 rounded-full w-fit">
-                <FolderKanban className="text-[#006B2C]" />
-              </div>
-              <h2 className="text-lg font-medium">Manage Categories</h2>
-            </div>
-            <p className="text-gray-500 text-sm mb-4">
-              Organize your botanical catalog with custom names and complex
-              nesting hierarchies for a seamless user experience.
-            </p>
-            <div
-              className="flex flex-wrap gap-2"
-            >
-              <span className="px-3 py-1 text-xs bg-gray-100 rounded-full">
-                FERNS
-              </span>
-              <span className="px-3 py-1 text-xs bg-gray-100 rounded-full">
-                SUCCULENTS
-              </span>
-              <span className="px-3 py-1 text-xs bg-gray-100 rounded-full">
-                +12 MORE
-              </span>
-            </div>
-          </div>
-        </Link>
-      </div>
-    </div >
+      </Link>
+    </div>
   );
 }
