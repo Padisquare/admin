@@ -23,7 +23,7 @@ const WebsiteHomepage = () => {
     return templates.filter(
       (t) =>
         t.name.toLowerCase().includes(lowerSearch) ||
-        t.description.toLowerCase().includes(lowerSearch)
+        t.description.toLowerCase().includes(lowerSearch),
     );
   }, [templates, debouncedSearch]);
 
@@ -54,15 +54,19 @@ const WebsiteHomepage = () => {
         data={filteredTemplates}
         columns={websitesTableColumns}
         loading={isLoading}
-        emptyState={error ? {
-          title: "Error Loading Templates",
-          message: (error as any)?.message,
-        } : {
-          title: searchTerm ? "No Results Found" : "No Templates Found",
-          message: searchTerm
-            ? `No templates match "${searchTerm}"`
-            : "No website templates added yet.",
-        }}
+        emptyState={
+          error
+            ? {
+                title: "Error Loading Templates",
+                message: error?.message,
+              }
+            : {
+                title: searchTerm ? "No Results Found" : "No Templates Found",
+                message: searchTerm
+                  ? `No templates match "${searchTerm}"`
+                  : "No website templates added yet.",
+              }
+        }
       />
     </section>
   );
