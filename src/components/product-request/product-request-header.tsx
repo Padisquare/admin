@@ -1,104 +1,134 @@
 "use client"
-import { useState } from "react"
-import { ListFilter, RotateCcw } from "lucide-react"
+
+import { useState, useEffect } from "react"
+import { ListFilter, RotateCcw, Search, X } from "lucide-react"
 import { Input } from "../ui/input"
-import CustomButton from "../common/custom-button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { CustomSelect, CustomSelectOption } from "../common/custom-select"
-import { MOCK_REQUESTS } from "@/app/(dashboard)/product-requests/page"
+import { ProductRequestFilters } from "@/types/product-request.type"
+import CustomButton from "../common/custom-button"
+import { useDebounce } from "@/hooks/useDebounce"
 
-export default function ProductRequestHeader() {
+interface Props {
+    onFilterChange: (filters: Partial<ProductRequestFilters>) => void
+    currentSearch?: string
+}
+
+export default function ProductRequestHeader({ onFilterChange, currentSearch }: Props) {
     const [open, setOpen] = useState(false)
-    const [stateFilter, setStateFilter] = useState<CustomSelectOption | undefined>(undefined)
-    const [statusFilter, setStatusFilter] = useState<CustomSelectOption | undefined>(undefined)
-    const [categoryFilter, setCategoryFilter] = useState<CustomSelectOption | undefined>(undefined)
-    const uniqueStates = Array.from(new Set(MOCK_REQUESTS.map(r => r.state)))
-    const stateOptions: CustomSelectOption[] = uniqueStates.map(state => ({
-        value: state,
-        label: state
-    }))
-    const uniqueCategories = Array.from(new Set(MOCK_REQUESTS.map(r => r.category)))
-    const categoryOptions: CustomSelectOption[] = uniqueCategories.map(cat => ({
-        value: cat,
-        label: cat
-    }))
-    const statusOptions: CustomSelectOption[] = [
-        { value: "pending", label: "Pending" },
-        { value: "in-progress", label: "In Progress" },
-        { value: "fulfilled", label: "Fulfilled" },
-        { value: "canceled", label: "Canceled" },
-    ]
+
+    const [search, setSearch] = useState(currentSearch || "")
+    const debouncedSearch = useDebounce(search, 500)
+    const [stateFilter, setStateFilter] = useState<CustomSelectOption>()
+
+    useEffect(() => {
+        onFilterChange({ search: debouncedSearch })
+    }, [debouncedSearch])
+
     const handleApplyFilters = () => {
-        console.log("Filters applied:", { stateFilter, statusFilter, categoryFilter })
+        onFilterChange({
+            state: stateFilter?.value,
+        })
         setOpen(false)
     }
+
     const handleReset = () => {
         setStateFilter(undefined)
-        setStatusFilter(undefined)
-        setCategoryFilter(undefined)
+        setSearch("")
+        onFilterChange({ state: "", search: "" })
         setOpen(false)
     }
+
+    const hasFilters = !!search || !!stateFilter
+    const activeCount = [search, stateFilter].filter(Boolean).length
+
     return (
-        <div className="flex items-center justify-between gap-5 mb-8">
-            <Input
-                placeholder="Search product requests..."
-                className="w-65 h-10 border-[#D0D5DD]"
-            />
-            <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                    <button className="flex items-center gap-2 h-10 px-4 border border-[#D0D5DD] rounded-md hover:bg-gray-50 bg-white transition-colors">
-                        <ListFilter className="h-4 w-4 text-gray-500" />
-                        <span className="text-sm font-medium">Filters</span>
-                        {(stateFilter || statusFilter || categoryFilter) && (
-                            <div className="h-1.5 w-1.5 rounded-full bg-brand-main" />
-                        )}
-                    </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80 p-5 shadow-lg" align="end">
-                    <div className="space-y-5">
-                        <div className="flex items-center justify-between">
-                            <h4 className="font-bold text-sm text-gray-900">Filter Requests</h4>
+        <div className="space-y-4 mb-6">
+            <div className="flex items-center justify-between gap-4">
+                <div className="relative w-72">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        placeholder="Search product requests..."
+                        className="pl-10 h-10"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
+
+                <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                        <button className="relative flex items-center gap-2 h-10 px-4 border rounded-md bg-white hover:bg-muted">
+                            <ListFilter className="h-4 w-4 text-muted-foreground" />
+                            <span className="text-sm font-medium">
+                                Filters {hasFilters && `(${activeCount})`}
+                            </span>
+                            {hasFilters && (
+                                <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-emerald-500" />
+                            )}
+                        </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80 p-5" align="end">
+                        <div className="space-y-5">
+                            <h4 className="text-sm font-semibold">Filter Requests</h4>
+                            <CustomSelect
+                                name="state"
+                                label="State"
+                                options={[
+                                    { value: "Lagos", label: "Lagos" },
+                                    { value: "Rivers", label: "Rivers" },
+                                    { value: "Oyo", label: "Oyo" },
+                                    { value: "Kano", label: "Kano" },
+                                ]}
+                                value={stateFilter}
+                                onChange={(val) => setStateFilter(val as CustomSelectOption)}
+                            />
+                            <CustomButton
+                                type="button"
+                                label="Apply Filters"
+                                onClick={handleApplyFilters}
+                                className="w-full"
+                            />
+                        </div>
+                    </PopoverContent>
+                </Popover>
+            </div>
+            {hasFilters && (
+                <div className="flex items-center gap-2 flex-wrap">
+                    {search && (
+                        <div className="flex items-center gap-1 px-2 py-1 text-xs bg-muted rounded-md">
+                            Search: {search}
                             <button
-                                onClick={handleReset}
-                                className="flex items-center text-xs text-red-500 hover:text-red-600 font-medium"
+                                onClick={() => {
+                                    setSearch("")
+                                    onFilterChange({ search: "" })
+                                }}
                             >
-                                <RotateCcw className="mr-1.5 h-3 w-3" />
-                                Reset
+                                <X size={9} />
                             </button>
                         </div>
-                        <CustomSelect
-                            name="category"
-                            label="Category"
-                            options={categoryOptions}
-                            value={categoryFilter}
-                            onChange={(val) => setCategoryFilter(val as CustomSelectOption)}
-                            height="20px"
-                        />
-                        <CustomSelect
-                            name="state"
-                            label="State"
-                            options={stateOptions}
-                            value={stateFilter}
-                            onChange={(val) => setStateFilter(val as CustomSelectOption)}
-                            height="20px"
-                        />
-                        <CustomSelect
-                            name="status"
-                            label="Status"
-                            options={statusOptions}
-                            value={statusFilter}
-                            onChange={(val) => setStatusFilter(val as CustomSelectOption)}
-                            height="20px"
-                        />
-                        <CustomButton
-                            type="button"
-                            label="Apply Filters"
-                            onClick={handleApplyFilters}
-                            className="w-full"
-                        />
-                    </div>
-                </PopoverContent>
-            </Popover>
+                    )}
+                    {stateFilter && (
+                        <div className="flex items-center gap-1 px-2 py-1 text-xs bg-muted rounded-md">
+                            {stateFilter.label}
+                            <button
+                                onClick={() => {
+                                    setStateFilter(undefined)
+                                    onFilterChange({ state: "" })
+                                }}
+                            >
+                                <X className="h-3 w-3" />
+                            </button>
+                        </div>
+                    )}
+                    <button
+                        onClick={handleReset}
+                        className="text-xs text-red-500 font-medium ml-2"
+                    >
+                        Clear all
+                    </button>
+
+                </div>
+            )}
         </div>
     )
 }
