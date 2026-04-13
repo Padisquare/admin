@@ -1,17 +1,14 @@
-import { fetchProducts } from "@/services/product.service";
-import { ProductsResponse } from "@/types/product.type";
-import { useQuery } from "@tanstack/react-query";
-
-type UseGetProductsProps = {
-  params?: {
-    condition?: string;
-    lga?: string;
-    state?: string;
-    search?: string;
-  };
-  page?: number;
-  limit?: number;
-};
+import {
+  deleteProduct,
+  fetchProduct,
+  fetchProducts,
+} from "@/services/product.service";
+import {
+  ProductResponse,
+  ProductsResponse,
+  UseGetProductsProps,
+} from "@/types/product.type";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useGetProducts = ({
   params = {},
@@ -21,5 +18,21 @@ export const useGetProducts = ({
   return useQuery<ProductsResponse>({
     queryKey: ["products", params, page, limit],
     queryFn: () => fetchProducts(params, page, limit),
+  });
+};
+
+export const useGetProductById = ({ productId }: { productId: string }) => {
+  return useQuery<ProductResponse>({
+    queryKey: ["product-Id", productId],
+    queryFn: async () => fetchProduct(productId),
+    enabled: !!productId,
+  });
+};
+
+export const useDeleteProductById = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      await deleteProduct(id);
+    },
   });
 };

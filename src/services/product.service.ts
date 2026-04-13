@@ -1,23 +1,21 @@
-import { UploadProductDto } from "@/types/product.type";
+import { ProductsQuery, UploadProductDto } from "@/types/product.type";
 import { requestHandler } from "@/utils/requestHandler";
 import { cache } from "react";
 
-export type ProductsQuery = {
-  condition?: string;
-  lga?: string;
-  state?: string;
-  search?: string;
-};
-
 export const fetchProducts = cache(
   async (params: ProductsQuery, page: number, limit: number) => {
-    const queryString = new URLSearchParams({
-      ...params,
-      page: String(page),
-      limit: String(limit),
-    }).toString();
+    const searchParams = new URLSearchParams();
 
-    return await requestHandler("get", `/products?${queryString}`);
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        searchParams.append(key, String(value));
+      }
+    });
+
+    searchParams.append("page", String(page));
+    searchParams.append("limit", String(limit));
+
+    return await requestHandler("get", `/products?${searchParams.toString()}`);
   },
 );
 
@@ -45,7 +43,7 @@ export const updateProduct = async (
 };
 
 export const deleteProduct = async (productId: string) => {
-  return await requestHandler("delete", `/products/${productId}`);
+  return await requestHandler("delete", `/products/${productId}/admin`);
 };
 
 export const closeProduct = async (productId: string) => {

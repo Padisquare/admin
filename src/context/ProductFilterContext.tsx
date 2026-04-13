@@ -1,12 +1,12 @@
+import { usePathname, useRouter } from "next/navigation";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 export type Filters = {
-  sort?: string;
   condition?: string;
   state?: string;
   lga?: string;
-  startDate?: string;
-  endDate?: string;
+  maxPrice?: number;
+  minPrice?: number;
   search?: string;
 };
 
@@ -27,12 +27,9 @@ type ProductFilterProviderProps = {
 };
 
 const initialFilters: Filters = {
-  sort: "",
   condition: "",
   state: "",
   lga: "",
-  startDate: "",
-  endDate: "",
   search: "",
 };
 
@@ -41,6 +38,8 @@ export const ProductFilterProvider: React.FC<ProductFilterProviderProps> = ({
 }) => {
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [appliedFilters, setAppliedFilters] = useState<Filters>(initialFilters);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const setFilter = (key: keyof Filters, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -53,6 +52,7 @@ export const ProductFilterProvider: React.FC<ProductFilterProviderProps> = ({
   const resetFilters = () => {
     setFilters(initialFilters);
     setAppliedFilters(initialFilters);
+    router.replace(pathname);
   };
 
   return (

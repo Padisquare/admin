@@ -46,13 +46,6 @@ export const productTableColumns: ColumnDef<Product>[] = [
     header: "Total Like",
     cell: ({ row }) => row.original.likeCount,
   },
-
-  {
-    accessorKey: "ratingCount",
-    header: "Rating count",
-    cell: ({ row }) => row.original.ratingCount,
-  },
-
   {
     accessorKey: "seller",
     header: "Seller",
@@ -84,11 +77,18 @@ export const productTableColumns: ColumnDef<Product>[] = [
   {
     accessorKey: "stockStatus",
     header: "Status",
-    cell: ({ row }) => (
-      <span className={cn("font-semibold capitalize")}>
-        {/* {row.original.stockStatus.replace("_", " ")} */}
-        status
-      </span>
-    ),
+    cell: ({ row }) => {
+      const isActive = row.original.closedAt === null;
+      return (
+        <span
+          className={cn(
+            "font-semibold capitalize",
+            isActive ? "text-green-500" : "text-red-300",
+          )}
+        >
+          {isActive ? "Active" : "Inactive"}
+        </span>
+      );
+    },
   },
 ];

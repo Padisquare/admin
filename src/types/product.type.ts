@@ -1,5 +1,27 @@
 import { UserType } from "./user.type";
 
+export type ProductsQuery = {
+  condition?: string;
+  lga?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  state?: string;
+  search?: string;
+};
+
+export type UseGetProductsProps = {
+  params?: {
+    condition?: string;
+    lga?: string;
+    state?: string;
+    search?: string;
+    minPrice?: number;
+    maxPrice?: number;
+  };
+  page?: number;
+  limit?: number;
+};
+
 export type ProductType = {
   _id: string;
   name: string;
@@ -78,7 +100,7 @@ export type Product = {
   _id: string;
   name: string;
   description: string;
-  condition: "brand_new" | "used"; 
+  condition: "brand_new" | "used";
   unitPrice: number;
 
   state: string;
@@ -110,4 +132,8 @@ export type ProductsResponse = {
     pages: string;
     total: number;
   };
+};
+
+export type ProductResponse = {
+  entity: Product;
 };

@@ -11,11 +11,11 @@ import { useState } from "react";
 const ProductHomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const {
-    appliedFilters: { condition, state, lga, search },
+    appliedFilters: { condition, state, lga, search, minPrice, maxPrice },
   } = useProductFilters();
 
   const { data, isPending } = useGetProducts({
-    params: { condition, search, state, lga },
+    params: { condition, search, state, lga, minPrice, maxPrice },
     page: currentPage,
     limit: 10,
   });
