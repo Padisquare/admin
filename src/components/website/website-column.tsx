@@ -1,167 +1,83 @@
 "use client";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
+import { WebsiteTemplate } from "@/types/website-template.type";
+import { Switch } from "../ui/switch";
+import { useState } from "react";
+import { formatOnlyDate } from "@/utils/formatDate";
+import { TemplateActions } from "./website-template-actions";
 
-export interface Website {
-  id: number;
-  title: string;
-  logo: string;
-  url: string;
-
-  template: string;
-
-  ownerId: number;
-  ownerName: string;
-  ownerEmail: string;
-  ownerAvatar?: string;
-
-  productsCount: number;
-  visits: number;
-
-  status: "active" | "inactive" | "flagged";
-
-  createdAt: string;
-}
-
-export const websitesTableColumns: ColumnDef<Website>[] = [
+export const websitesTableColumns: ColumnDef<WebsiteTemplate>[] = [
   {
-    accessorKey: "title",
-    header: "Website",
-    cell: ({ row }) => {
-      const website = row.original;
-
-      return (
-        <Link href={`/website/${website.id}`}>
-          <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10 rounded-md">
-              <AvatarImage src={website.logo} alt={website.title} />
-              <AvatarFallback>{website.title.charAt(0)}</AvatarFallback>
-            </Avatar>
-
-            <div className="flex flex-col">
-              <span className="font-medium">{website.title}</span>
-              <span className="text-muted-foreground text-xs">
-                ID: <strong>{website.id}</strong>
-              </span>
-            </div>
-          </div>
-        </Link>
-      );
-    },
-  },
-
-  {
-    accessorKey: "url",
-    header: "URL",
-    cell: ({ row }) => {
-      const url = row.original.url;
-
-      return (
-        <a
-          href={url}
-          target="_blank"
-          className="text-blue-600 hover:underline text-sm"
-        >
-          {url.replace("https://", "")}
-        </a>
-      );
-    },
-  },
-
-  {
-    accessorKey: "template",
+    accessorKey: "name",
     header: "Template",
-    cell: ({ row }) => (
-      <span className="text-sm font-medium">{row.original.template}</span>
-    ),
-  },
-
-  {
-    accessorKey: "ownerName",
-    header: "Owner",
     cell: ({ row }) => {
-      const website = row.original;
-
+      const template = row.original;
       return (
-        <Link
-          href={`/users/${website.ownerId}`}
-          className="flex items-center gap-2 hover:underline"
-        >
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={website.ownerAvatar} />
-            <AvatarFallback>{website.ownerName.charAt(0)}</AvatarFallback>
+        <div className="flex items-center gap-3">
+          <Avatar className="h-12 w-20 rounded-md border">
+            <AvatarImage
+              src={template.image}
+              alt={template.name}
+              className="object-cover"
+            />
+            <AvatarFallback className="rounded-md">
+              {template.name.charAt(0)}
+            </AvatarFallback>
           </Avatar>
-
           <div className="flex flex-col">
-            <span className="font-medium">{website.ownerName}</span>
-            <span className="text-muted-foreground text-xs">
-              {website.ownerEmail}
+            <span className="font-medium">{template.name}</span>
+            <span className="text-muted-foreground text-xs line-clamp-1 max-w-20">
+              {template.description}
             </span>
           </div>
-        </Link>
+        </div>
       );
     },
   },
-
   {
-    accessorKey: "productsCount",
-    header: "Products",
-    cell: ({ row }) => row.original.productsCount,
+    accessorKey: "slug",
+    header: "Slug",
+    cell: ({ row }) => (
+      <code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">
+        /{row.original.slug}
+      </code>
+    ),
   },
-
   {
-    accessorKey: "visits",
-    header: "Visits",
-    cell: ({ row }) => {
-      const visits = row.original.visits;
-
-      return (
-        <span className="font-medium">
-          {Intl.NumberFormat("en", {
-            notation: "compact",
-          }).format(visits)}
-        </span>
-      );
-    },
-  },
-
-  {
-    accessorKey: "status",
+    accessorKey: "isActive",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.original.status;
-
+      const category = row.original;
+      const [isActive, setIsActive] = useState(category.isActive);
       return (
-        <span
-          className={cn(
-            "px-2 py-1 rounded-md text-xs font-semibold capitalize",
-            {
-              "bg-green-100 text-green-700": status === "active",
-              "bg-gray-100 text-gray-700": status === "inactive",
-              "bg-red-100 text-red-700": status === "flagged",
-            },
-          )}
-        >
-          {status}
+        <Switch
+          checked={isActive}
+          onCheckedChange={(checked) => {
+            setIsActive(checked);
+            console.log(
+              `${category.name} is now ${checked ? "active" : "in-active"}`,
+            );
+          }}
+        />
+      );
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Date Created",
+    cell: ({ row }) => {
+      const date = (row.original.createdAt);
+      return (
+        <span className="text-sm text-muted-foreground">
+          {formatOnlyDate(date)}
         </span>
       );
     },
   },
-
   {
-    accessorKey: "createdAt",
-    header: "Created",
-    cell: ({ row }) => {
-      const date = new Date(row.original.createdAt);
-
-      return (
-        <span className="text-sm text-muted-foreground">
-          {date.toLocaleDateString()}
-        </span>
-      );
-    },
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => <TemplateActions template={row.original} />,
   },
 ];
