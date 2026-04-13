@@ -13,9 +13,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Product } from "./product-table-columns";
 import { Textarea } from "../ui/textarea";
 import { ScrollArea } from "../ui/scroll-area";
+import { Product } from "@/types/product.type";
+import CategoryList from "./category-list";
 
 interface Props {
   product: Product | null;
@@ -43,7 +44,7 @@ const EditProductModal = ({ product, open, onClose }: Props) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
@@ -62,8 +63,8 @@ const EditProductModal = ({ product, open, onClose }: Props) => {
             <div className="grid gap-2">
               <Label>Price</Label>
               <Input
-                value={formData.price}
-                onChange={(e) => handleChange("price", e.target.value)}
+                value={formData.unitPrice}
+                onChange={(e) => handleChange("unitPrice", e.target.value)}
               />
             </div>
 
@@ -131,6 +132,7 @@ const EditProductModal = ({ product, open, onClose }: Props) => {
                 onChange={(e) => handleChange("stockStatus", e.target.value)}
               />
             </div>
+            <CategoryList />
           </div>
         </ScrollArea>
 
