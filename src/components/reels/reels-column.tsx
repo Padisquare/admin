@@ -1,138 +1,96 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
-
-export interface Reel {
-  id: number;
-  caption: string;
-  thumbnail: string;
-  videoUrl?: string;
-
-  views: number;
-  likes: number;
-  commentsCount: number;
-
-  status: "published" | "draft" | "flagged";
-
-  creatorId: number;
-  creatorName: string;
-  creatorEmail: string;
-  creatorAvatar?: string;
-
-  createdAt: string;
-}
+import { Badge } from "../ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { formatOnlyDate } from "@/utils/formatDate";
+import { Reel } from "@/types/reels.type";
+import { PlayCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import ViewReelModal from "./reel-action";
+import ReelActions from "./reel-action";
 
 export const reelsTableColumns: ColumnDef<Reel>[] = [
   {
-    accessorKey: "caption",
-    header: "Reel",
+    accessorKey: "name",
+    header: "Product Reel",
     cell: ({ row }) => {
       const reel = row.original;
-
       return (
-        <Link href={`/reels/${reel.id}`}>
-          <div className="flex items-center gap-3">
-            <Avatar className="h-12 w-12 rounded-md">
-              <AvatarImage src={reel.thumbnail} alt={reel.caption} />
-              <AvatarFallback>🎬</AvatarFallback>
-            </Avatar>
-
-            <div className="flex flex-col">
-              <span className="font-medium line-clamp-1">{reel.caption}</span>
-              <span className="text-muted-foreground text-xs">
-                Reel ID: <strong>{reel.id}</strong>
-              </span>
-            </div>
-          </div>
-        </Link>
+        <div className="flex flex-col">
+          <span className="font-medium text-sm leading-none">{reel.name}</span>
+          <span className="text-xs text-muted-foreground mt-1 line-clamp-1">
+            {reel.category?.name}
+          </span>
+        </div>
       );
     },
   },
-
   {
-    accessorKey: "views",
-    header: "Views",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.views}</span>
-    ),
-  },
-
-  {
-    accessorKey: "likes",
-    header: "Likes",
-    cell: ({ row }) => row.original.likes,
-  },
-
-  {
-    accessorKey: "commentsCount",
-    header: "Comments",
-    cell: ({ row }) => row.original.commentsCount,
-  },
-
-  {
-    accessorKey: "creatorName",
-    header: "Creator",
+    id: "seller",
+    header: "Seller",
     cell: ({ row }) => {
-      const reel = row.original;
+      const seller = row.original.seller;
+      const fullName = `${seller.firstName} ${seller.lastName}`;
+      const initials = `${seller.firstName?.[0]}${seller.lastName?.[0]}`.toUpperCase();
 
       return (
-        <Link
-          href={`/users/${reel.creatorId}`}
-          className="flex items-center gap-2 hover:underline"
-        >
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={reel.creatorAvatar} />
-            <AvatarFallback>{reel.creatorName.charAt(0)}</AvatarFallback>
+        <div className="flex items-center gap-2">
+          <Avatar className="h-7 w-7">
+            <AvatarImage src={seller.avatarUrl} alt={fullName} />
+            <AvatarFallback className="text-[10px]">{initials}</AvatarFallback>
           </Avatar>
-
           <div className="flex flex-col">
-            <span className="font-medium">{reel.creatorName}</span>
-            <span className="text-muted-foreground text-xs">
-              {reel.creatorEmail}
-            </span>
+            <span className="text-sm font-medium">{fullName}</span>
+            <span className="text-[10px] text-muted-foreground italic">@{seller.username}</span>
           </div>
-        </Link>
+        </div>
       );
     },
   },
-
+  {
+    id: "location",
+    header: "Location",
+    cell: ({ row }) => {
+      return (
+        <span className="text-sm text-slate-600">
+          {row.original.lga}, {row.original.state}
+        </span>
+      );
+    },
+  },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.original.status;
-
+      const isClosed = !!row.original.closedAt;
       return (
-        <span
-          className={cn(
-            "px-2 py-1 rounded-md text-xs font-semibold capitalize",
-            {
-              "bg-green-100 text-green-700": status === "published",
-              "bg-yellow-100 text-yellow-700": status === "draft",
-              "bg-red-100 text-red-700": status === "flagged",
-            },
-          )}
+        <Badge
+          variant={isClosed ? "destructive" : "outline"}
+          className={cn("capitalize", !isClosed && "border-green-500 text-green-600 bg-green-50")}
         >
-          {status}
+          {isClosed ? "Closed" : "Active"}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Posted Date",
+    cell: ({ row }) => {
+      return (
+        <span className="text-sm text-gray-500">
+          {formatOnlyDate(row.original.createdAt)}
         </span>
       );
     },
   },
-
   {
-    accessorKey: "createdAt",
-    header: "Date",
+    id: "actions",
+    header: "",
     cell: ({ row }) => {
-      const date = new Date(row.original.createdAt);
-
-      return (
-        <span className="text-sm text-muted-foreground">
-          {date.toLocaleDateString()}
-        </span>
-      );
+      const reel = row.original;
+      return <ReelActions reel={reel} />;
     },
   },
 ];
