@@ -6,10 +6,11 @@ import {
   deleteCategoryRequest,
 } from "@/services/category.service";
 import { toast } from "sonner";
+import { CategoriesResponse, CategoryType } from "@/types/category.type";
 
 export const useCategories = () => {
   const queryClient = useQueryClient();
-  const { data, isPending: isLoading } = useQuery({
+  const { data, isPending: isLoading } = useQuery<CategoriesResponse>({
     queryKey: ["categories"],
     queryFn: fetchCategoriesRequest,
   });
