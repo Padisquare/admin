@@ -1,6 +1,6 @@
 "use client";
 
-import ProductFilterContext, { ProductFilterProvider } from "@/context/ProductFilterContext";
+import { ProductFilterProvider } from "@/context/ProductFilterContext";
 import {
   isServer,
   QueryClient,

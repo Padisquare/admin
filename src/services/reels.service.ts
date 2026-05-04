@@ -9,6 +9,10 @@ export const fetchAllReels = (filters: ReelFilters = {}) => {
   return requestHandler("get", `/reels?${params.toString()}`);
 };
 
+export const fetchReelById = (id: string) => {
+  return requestHandler("get", `/reels/${id}`);
+};
+
 export const DeleteReel = (id: string) => {
   return requestHandler("delete", `/reels/${id}`);
 };

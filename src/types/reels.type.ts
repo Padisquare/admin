@@ -39,3 +39,5 @@ export interface PaginatedData<T> {
   hasPrevPage: boolean;
 }
 export type ReelsResponse = ApiResponse<PaginatedData<Reel>>;
+
+export type ReelDetailResponse = ApiResponse<Reel>;

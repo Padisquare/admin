@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuthContext } from "@/context/AuthContext";
 import {
   DropdownMenu,
@@ -14,12 +14,6 @@ import { LogOut, Settings, User } from "lucide-react";
 export default function AdminProfile() {
   const { resetToken } = useAuthContext();
 
-  const admin = {
-    name: "Admin User",
-    email: "admin@padisquare.com",
-    image: "/admin-avatar.png",
-  };
-
   const handleLogout = () => {
     resetToken?.();
   };
@@ -29,18 +23,12 @@ export default function AdminProfile() {
       <DropdownMenuTrigger asChild>
         <div className="flex items-center justify-center gap-2 cursor-pointer">
           <Avatar className="h-12 w-12">
-            <AvatarImage src={admin.image} alt={admin.name} />
-            <AvatarFallback>
-              {admin.name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
-            </AvatarFallback>
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
 
           <div className="flex flex-col">
-            <span className="font-medium">{admin.name}</span>
-            <span className="text-sm text-muted-foreground">{admin.email}</span>
+            <span className="font-medium">Administrator</span>
+            <span className="text-sm text-muted-foreground">Signed in</span>
           </div>
         </div>
       </DropdownMenuTrigger>

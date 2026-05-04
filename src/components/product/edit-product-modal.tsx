@@ -33,9 +33,30 @@ const EditProductModal = ({ product, open, onClose }: Props) => {
 
   if (!formData) return null;
 
-  const handleChange = (field: keyof Product, value: string | number) => {
+  const handleTextChange = (
+    field: "name" | "description" | "state" | "lga",
+    value: string,
+  ) => {
     setFormData((prev) => (prev ? { ...prev, [field]: value } : prev));
   };
+
+  const handleUnitPriceChange = (value: string) => {
+    const n = Number(value);
+    setFormData((prev) =>
+      prev ? { ...prev, unitPrice: Number.isFinite(n) ? n : prev.unitPrice } : prev,
+    );
+  };
+
+  const handleConditionChange = (value: string) => {
+    if (value !== "brand_new" && value !== "used") return;
+    setFormData((prev) => (prev ? { ...prev, condition: value } : prev));
+  };
+
+  const parentCategoryName =
+    formData.category?.parentCategory &&
+    typeof formData.category.parentCategory === "object"
+      ? formData.category.parentCategory.name
+      : "";
 
   const handleSubmit = () => {
     console.log("Updated product:", formData);
@@ -55,7 +76,7 @@ const EditProductModal = ({ product, open, onClose }: Props) => {
               <Label>Name</Label>
               <Input
                 value={formData.name}
-                onChange={(e) => handleChange("name", e.target.value)}
+                onChange={(e) => handleTextChange("name", e.target.value)}
               />
             </div>
 
@@ -63,8 +84,9 @@ const EditProductModal = ({ product, open, onClose }: Props) => {
             <div className="grid gap-2">
               <Label>Price</Label>
               <Input
+                type="number"
                 value={formData.unitPrice}
-                onChange={(e) => handleChange("unitPrice", e.target.value)}
+                onChange={(e) => handleUnitPriceChange(e.target.value)}
               />
             </div>
 
@@ -73,7 +95,7 @@ const EditProductModal = ({ product, open, onClose }: Props) => {
               <Label>State</Label>
               <Input
                 value={formData.state}
-                onChange={(e) => handleChange("state", e.target.value)}
+                onChange={(e) => handleTextChange("state", e.target.value)}
               />
             </div>
 
@@ -82,54 +104,36 @@ const EditProductModal = ({ product, open, onClose }: Props) => {
               <Label>LGA</Label>
               <Input
                 value={formData.lga}
-                onChange={(e) => handleChange("lga", e.target.value)}
+                onChange={(e) => handleTextChange("lga", e.target.value)}
               />
             </div>
 
-            {/* Category  */}
+            {/* Category (from API object) */}
             <div className="grid gap-2">
               <Label>Category</Label>
-              <Input
-                value={formData.category}
-                onChange={(e) => handleChange("category", e.target.value)}
-              />
+              <Input value={formData.category?.name ?? ""} readOnly disabled />
             </div>
-            {/* Subcategory  */}
-            <div className="grid gap-2">
-              <Label>SubCategory</Label>
-              <Input
-                value={formData.subCategory}
-                onChange={(e) => handleChange("subCategory", e.target.value)}
-              />
-            </div>
+            {parentCategoryName ? (
+              <div className="grid gap-2">
+                <Label>Parent category</Label>
+                <Input value={parentCategoryName} readOnly disabled />
+              </div>
+            ) : null}
 
             {/* Descriptioon */}
             <div className="grid gap-2">
               <Label>Description</Label>
               <Textarea
                 value={formData.description}
-                onChange={(e) => handleChange("description", e.target.value)}
+                onChange={(e) => handleTextChange("description", e.target.value)}
               />
             </div>
 
-            {/* Quantity */}
-            <div className="grid gap-2">
-              <Label>Quantity In Stock</Label>
-              <Input
-                type="number"
-                value={formData.quantityInStock}
-                onChange={(e) =>
-                  handleChange("quantityInStock", Number(e.target.value))
-                }
-              />
-            </div>
-
-            {/* Stock Status */}
             <div className="grid gap-2">
               <Label>Condition</Label>
               <Input
-                value={formData.stockStatus}
-                onChange={(e) => handleChange("stockStatus", e.target.value)}
+                value={formData.condition}
+                onChange={(e) => handleConditionChange(e.target.value)}
               />
             </div>
             <CategoryList />

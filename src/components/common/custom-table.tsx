@@ -40,16 +40,15 @@ interface DataTableProps<TData, TValue> {
   emptyState?: { title: string; message: string };
 }
 
-// TODO: write the props for this component
 // TODO: handle the pin and unpin feature
 // TODO: handle className props
 // TODO: handle empty record : allow passing empty record component as props
-const CustomTable = ({
+function CustomTable<TData, TValue>({
   data,
   columns,
   loading,
   emptyState,
-}: DataTableProps<TData, TValue>) => {
+}: DataTableProps<TData, TValue>) {
   const [expanded, setExpanded] = React.useState({});
 
   const table = useReactTable({
@@ -236,6 +235,6 @@ const CustomTable = ({
       </TableBody>
     </Table>
   );
-};
+}
 
 export { CustomTable };
