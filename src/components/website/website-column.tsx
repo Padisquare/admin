@@ -40,7 +40,7 @@ export const websitesTableColumns: ColumnDef<WebsiteTemplate>[] = [
     header: "Slug",
     cell: ({ row }) => (
       <code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">
-        /{row.original.slug}
+        {row.original.slug}
       </code>
     ),
   },

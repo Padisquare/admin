@@ -45,7 +45,7 @@ export const ViewTemplateModal = ({
                             </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground font-mono">
-                            /{template.slug}
+                            {template.slug}
                         </p>
                     </div>
                 </DialogHeader>

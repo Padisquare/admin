@@ -46,7 +46,7 @@ const WebsiteHomepage = () => {
           leftIcon={<Plus className="h-4 w-4" />}
           label="Create Template"
           className="rounded-xl shadow-sm"
-          onClick={() => router.push("/website/create")}
+          onClick={() => router.push("/website-templates/create")}
         />
       </div>
 
@@ -57,15 +57,15 @@ const WebsiteHomepage = () => {
         emptyState={
           error
             ? {
-                title: "Error Loading Templates",
-                message: error?.message,
-              }
+              title: "Error Loading Templates",
+              message: error?.message,
+            }
             : {
-                title: searchTerm ? "No Results Found" : "No Templates Found",
-                message: searchTerm
-                  ? `No templates match "${searchTerm}"`
-                  : "No website templates added yet.",
-              }
+              title: searchTerm ? "No Results Found" : "No Templates Found",
+              message: searchTerm
+                ? `No templates match "${searchTerm}"`
+                : "No website templates added yet.",
+            }
         }
       />
     </section>
