@@ -57,7 +57,7 @@ export const TemplateActions: React.FC<TemplateActionsProps> = ({ template }) =>
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         className="cursor-pointer"
-                        onSelect={() => router.push(`/website/${template.id}/edit`)}>
+                        onSelect={() => router.push(`/website-templates/${template.id}/edit`)}>
                         <Pencil className="mr-2 h-4 w-4" />
                         Edit Template
                     </DropdownMenuItem>
