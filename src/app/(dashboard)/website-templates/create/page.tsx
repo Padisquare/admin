@@ -1,5 +1,5 @@
 "use client";
-import TemplateForm from "@/components/website/web-template-form";
+import TemplateForm from "@/components/website-templates/web-template-form";
 import { useWebsiteTemplates } from "@/hooks/useWebTemplates";
 
 export default function CreateWebsiteTemplatePage() {

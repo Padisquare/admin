@@ -7,7 +7,7 @@ import { CustomTable } from "@/components/common/custom-table";
 import CustomPagination from "@/components/common/custom-pagination";
 import { useWebsites } from "@/hooks/useWebsites";
 import { useDebounce } from "@/hooks/useDebounce";
-import { websitTableColumns } from "@/components/websit/websit-column";
+import { websitTableColumns } from "@/components/website/websit-column";
 
 const WebsiteHomepage = () => {
     const [currentPage, setCurrentPage] = useState(1);

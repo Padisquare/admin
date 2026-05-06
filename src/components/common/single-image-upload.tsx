@@ -13,7 +13,7 @@ interface SingleImageUploadProps {
   label?: string;
   value?: string;
   onChange?: (url: string) => void;
-  width?: number;
+  width?: number | string;
   height?: number;
   className?: string;
   folder?: string;
@@ -109,13 +109,22 @@ const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
       >
         {preview ? (
           <>
-            <Image
-              src={preview}
-              alt="Preview"
-              height={height}
-              width={width}
-              className="object-cover"
-            />
+            {typeof width === "number" && typeof height === "number" ? (
+              <Image
+                src={preview}
+                alt="Preview"
+                height={height}
+                width={width}
+                className="object-cover"
+              />
+            ) : (
+              <Image
+                src={preview}
+                alt="Preview"
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />)}
 
             {!disabled && (
               <button
@@ -130,7 +139,7 @@ const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
         ) : (
           <div className="flex flex-col items-center text-muted-foreground">
             <ImagePlus size={22} />
-            {height > 100 && width > 100 && (
+            {typeof height === "number" && height > 100 && typeof width === "number" && width > 100 && (
               <span className="text-xs mt-1">Upload image</span>
             )}
           </div>

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import CustomButton from "@/components/common/custom-button";
 import { CustomTable } from "@/components/common/custom-table";
 import { Input } from "@/components/ui/input";
-import { websitesTableColumns } from "@/components/website/website-column";
+import { websitesTableColumns } from "@/components/website-templates/website-column";
 // import WebsitesOverview from "@/components/website/website-overview";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useWebsiteTemplates } from "@/hooks/useWebTemplates";

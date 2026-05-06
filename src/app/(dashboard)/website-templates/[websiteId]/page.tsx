@@ -1,4 +1,4 @@
-import WebsiteTemplateDetailClient from "@/components/website/website-template-detail-client";
+import WebsiteTemplateDetailClient from "@/components/website-templates/website-template-detail-client";
 
 export default async function WebsiteTemplateDetailPage({
   params,

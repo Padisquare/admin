@@ -7,6 +7,7 @@ import CustomInput from "../common/custom-input";
 import CustomButton from "../common/custom-button";
 import CustomTextArea from "../common/custom-textarea";
 import { CustomSelect, type CustomSelectOption } from "../common/custom-select";
+import SingleImageUpload from "../common/single-image-upload";
 
 interface TemplateFormProps {
     initialData?: TemplateFormData;
@@ -54,7 +55,7 @@ export default function TemplateForm({
     }, [initialData, reset]);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pb-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pb-4 w-full">
             <CustomInput
                 name="name"
                 label="Template Name"
@@ -72,13 +73,14 @@ export default function TemplateForm({
                 error={errors.description?.message}
             />
 
-            <CustomInput
-                name="image"
+            <SingleImageUpload
                 label="Preview Image URL"
-                type="url"
-                placeholder="https://res.cloudinary.com/..."
-                register={register}
-                error={errors.image?.message}
+                name="image"
+                value={watch("image")}
+                width={"100%"}
+                onChange={(url) => setValue("image", url)}
+                error={errors?.image?.message}
+                className="rounded-2xl border-dashed border-2"
             />
 
             <CustomSelect
