@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { url } from "inspector";
 import {
   ClipboardList,
+  Contact,
   Film,
   Globe,
   LayoutDashboard,
@@ -54,6 +55,11 @@ const items = [
     title: "Reels",
     url: "/reels",
     icon: Film,
+  },
+  {
+    title: "Waitlist",
+    url: "/waitlist",
+    icon: Contact,
   },
   {
     title: "Websites",
