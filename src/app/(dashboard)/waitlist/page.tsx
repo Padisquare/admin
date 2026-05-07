@@ -37,7 +37,7 @@ const WaitlistPage = () => {
     return (
         <div className="pb-10 space-y-5">
             <WaitlistStatsSection />
-            <div className="bg-white pt-5 rounded-lg border px-5 space-y-5">
+            <div className="bg-white rounded-lg border px-10 py-5 space-y-5">
                 <div className="py-3">
                     <div className="relative w-72">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -52,29 +52,31 @@ const WaitlistPage = () => {
                         />
                     </div>
                 </div>
-                <CustomTable
-                    data={waitlist}
-                    loading={isLoading || isFetching}
-                    columns={waitlistTableColumns}
-                    emptyState={{
-                        title: debouncedSearch ? "No Results Found" : "No Waitlist Data",
-                        message: debouncedSearch
-                            ? `No users found for "${debouncedSearch}"`
-                            : "No one has joined the waitlist yet.",
-                    }}
-                />
-                {pagination && (
-                    <div className="grid grid-cols-2 items-center border-t pt-3">
-                        <p className="text-sm">
-                            Showing page <b>{pagination.page}</b> of{" "}
-                            <b>{pagination.totalPages}</b>
-                        </p>
-                        <CustomPagination
-                            handleNextPage={handleNextPage}
-                            handlePreviousPage={handlePreviousPage}
-                        />
-                    </div>
-                )}
+                <div className="space-y-4 pb-3">
+                    <CustomTable
+                        data={waitlist}
+                        loading={isLoading || isFetching}
+                        columns={waitlistTableColumns}
+                        emptyState={{
+                            title: debouncedSearch ? "No Results Found" : "No Waitlist Data",
+                            message: debouncedSearch
+                                ? `No users found for "${debouncedSearch}"`
+                                : "No one has joined the waitlist yet.",
+                        }}
+                    />
+                    {pagination && (
+                        <div className="grid grid-cols-2 items-center border-t pt-3">
+                            <p className="text-sm">
+                                Showing page <b>{pagination.page}</b> of{" "}
+                                <b>{pagination.totalPages}</b>
+                            </p>
+                            <CustomPagination
+                                handleNextPage={handleNextPage}
+                                handlePreviousPage={handlePreviousPage}
+                            />
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
