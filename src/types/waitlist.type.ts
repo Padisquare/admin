@@ -25,7 +25,7 @@ export type WaitlistApiResponse = {
 export type WaitlistFilters = {
   search?: string;
   whatsapp_number?: string;
-  role?: "vendor" | "buyer";
+  role?: WaitlistRole;
   email?: string;
   page?: number;
   limit?: number;
