@@ -35,14 +35,17 @@ export type WaitlistStats = {
   message: string;
   entity: {
     user: {
+      total: number;
       "24h": number;
       "7d": number;
     };
     vendors: {
+      total: number;
       "24h": number;
       "7d": number;
     };
     buyers: {
+      total: number;
       "24h": number;
       "7d": number;
     };
