@@ -1,4 +1,4 @@
-import EditWebsiteTemplateClient from "@/components/website/edit-webtemp-page";
+import EditWebsiteTemplateClient from "@/components/website-templates/edit-webtemp-page";
 
 export default async function EditUserPage({
     params,

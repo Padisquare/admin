@@ -34,9 +34,9 @@ export const useWebsiteTemplates = (id?: string) => {
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["website-templates"] });
       toast.success(res.message);
-      router.push("/website");
+      router.push("/website-templates");
     },
-    onError: (error: any) => toast.error(error?.message),
+    onError: (error) => toast.error(error?.message),
   });
 
   const { mutate: editTemplate, isPending: isUpdating } = useMutation({
@@ -53,7 +53,7 @@ export const useWebsiteTemplates = (id?: string) => {
       toast.success(res.message);
       router.push("/website");
     },
-    onError: (error: any) => toast.error(error?.message),
+    onError: (error) => toast.error(error?.message),
   });
 
   const { mutateAsync: deleteTemplate, isPending: isDeleting } = useMutation({
@@ -62,7 +62,7 @@ export const useWebsiteTemplates = (id?: string) => {
       queryClient.invalidateQueries({ queryKey: ["website-templates"] });
       toast.success(res.message);
     },
-    onError: (error: any) => toast.error(error?.message),
+    onError: (error) => toast.error(error?.message),
   });
 
   return {
