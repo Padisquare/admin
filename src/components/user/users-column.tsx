@@ -41,7 +41,7 @@ export const usersColumns: ColumnDef<UserType>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.original.isActive ? "active" : "inactive";
+      const status = row.original.isActive === false ? "inactive" : "active";
       return (
         <Badge
           variant={status === "active" ? "outline" : "destructive"}
