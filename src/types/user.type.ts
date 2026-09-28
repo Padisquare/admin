@@ -19,6 +19,15 @@ export type UserType = {
   followingCount: number;
   followerCount: number;
   isFollowing: boolean;
+  verificationStatus?: string;
+  diditSessionId?: string;
+};
+
+export type RecheckVerificationResult = {
+  userId: string;
+  previousStatus?: string;
+  verificationStatus?: string;
+  verified?: boolean;
 };
 
 export type CreateUserType = Pick<
@@ -48,6 +57,7 @@ export interface DeleteEntity {
 }
 export type UserResponse = ApiResponse<UserType>;
 export type DeleteUserResponse = ApiResponse<DeleteEntity>;
+export type RecheckVerificationResponse = ApiResponse<RecheckVerificationResult>;
 
 export type ChangeUserPasswordType = {
   oldPassword: string;
