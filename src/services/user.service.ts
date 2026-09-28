@@ -42,6 +42,12 @@ export const deactivateUserByIdRequest = async (userId: string) => {
 export const activateUserByIdRequest = async (userId: string) => {
   return await requestHandler("post", `/admin/users/${userId}/activate`);
 };
+export const recheckUserVerificationRequest = async (userId: string) => {
+  return await requestHandler(
+    "post",
+    `/admin/users/${userId}/verification/recheck`,
+  );
+};
 export const searchUsersRequest = cache(async (q: string) => {
   return await requestHandler("get", `/users?search=${encodeURIComponent(q)}`);
 });

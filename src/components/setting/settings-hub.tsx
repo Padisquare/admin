@@ -1,4 +1,4 @@
-import { Users, KeyRound, LayoutGrid, FolderKanban } from "lucide-react";
+import { Users, KeyRound, LayoutGrid, FolderKanban, Percent, PackageCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -97,6 +97,52 @@ export default function SettingsHub() {
           </div>
         </div>
       </Link>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="rounded-[48px] shadow-sm bg-white p-6 flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="flex flex-col gap-1 mb-4">
+              <div className="p-3 bg-[#A4F1B2] rounded-full w-fit">
+                <Percent className="text-[#006B2C]" size={20} />
+              </div>
+              <h2 className="text-lg font-medium">Escrow Percentage</h2>
+            </div>
+            <p className="text-gray-500 text-sm">
+              Set the platform-wide commission cut deducted from a
+              vendor&apos;s payout before escrow funds are released.
+            </p>
+          </div>
+          <div className="mt-6 ml-auto">
+            <Link
+              href={"/settings/escrow-percentage"}
+              className="rounded-full px-5 py-2 bg-green-600 text-white text-sm font-medium bg-linear-to-r from-[#006B2C] to-[#00873A] transition"
+            >
+              Configure Rate →
+            </Link>
+          </div>
+        </div>
+
+        <div className="rounded-[48px] shadow-sm bg-[#E4E9E6] p-6 flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="flex flex-col gap-1 mb-4">
+              <div className="p-3 bg-white rounded-full w-fit">
+                <PackageCheck className="text-[#006B2C]" size={20} />
+              </div>
+              <h2 className="text-lg font-medium">Finalize Payout</h2>
+            </div>
+            <p className="text-gray-500 text-sm">
+              Submit the Paystack OTP to complete a vendor payout that&apos;s
+              stuck awaiting confirmation.
+            </p>
+          </div>
+          <Link
+            href={"/settings/finalize-payout"}
+            className="text-green-600 text-left mt-6 text-sm font-medium hover:underline"
+          >
+            Finalize a Payout →
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

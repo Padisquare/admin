@@ -1,7 +1,7 @@
 "use client"
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { MoreHorizontal, UserCircle, Pencil, Ban, Trash2 } from "lucide-react"
+import { MoreHorizontal, UserCircle, Pencil, Ban, Trash2, ShieldCheck } from "lucide-react"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 import { ConfirmActionDialog } from "./confirmation-dialog"
 import ViewProfileModal from "./users-profile"
 import { UserType } from "@/types/user.type"
-import { useDeactivateUser, useDeleteUser, useReactivateUser } from "@/hooks/useUser"
+import { useDeactivateUser, useDeleteUser, useReactivateUser, useRecheckVerification } from "@/hooks/useUser"
 
 
 interface UsersActionsProps {
@@ -28,6 +28,7 @@ export default function UsersActions({ user }: UsersActionsProps) {
     const deleteMutation = useDeleteUser();
     const deactivateMutation = useDeactivateUser();
     const reactivateMutation = useReactivateUser();
+    const recheckVerificationMutation = useRecheckVerification();
 
     const isActive = user.isActive === true;
     const isLoading =
@@ -41,6 +42,16 @@ export default function UsersActions({ user }: UsersActionsProps) {
             return
         }
         setActiveDialog(type)
+    }
+
+    const handleRecheckVerification = () => {
+        startTransition(async () => {
+            try {
+                await recheckVerificationMutation.mutateAsync(user.id)
+            } catch (error) {
+                console.error(error)
+            }
+        })
     }
     const onConfirmAction = async (type: "delete" | "deactivate" | "reactivate") => {
         startTransition(async () => {
@@ -114,6 +125,13 @@ export default function UsersActions({ user }: UsersActionsProps) {
                     <DropdownMenuItem onSelect={() => { handleAction("edit") }}>
                         <Pencil className="mr-2 h-4 w-4" />
                         Edit User
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        disabled={recheckVerificationMutation.isPending}
+                        onSelect={handleRecheckVerification}
+                    >
+                        <ShieldCheck className="mr-2 h-4 w-4" />
+                        {recheckVerificationMutation.isPending ? "Rechecking…" : "Recheck Verification"}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onSelect={() => { handleAction("deactivate") }}>

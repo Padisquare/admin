@@ -6,6 +6,26 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatOnlyDate } from "@/utils/formatDate";
 import { UserType } from "@/types/user.type";
 
+const getVerificationBadgeVariant = (
+  status?: string,
+): "outline" | "destructive" | "secondary" => {
+  switch (status) {
+    case "approved":
+      return "outline";
+    case "declined":
+    case "expired":
+    case "abandoned":
+      return "destructive";
+    default:
+      return "secondary";
+  }
+};
+
+const formatVerificationStatus = (status?: string) => {
+  if (!status) return "Not started";
+  return status.replace(/_/g, " ");
+};
+
 export const usersColumns: ColumnDef<UserType>[] = [
   {
     id: "name",
@@ -48,6 +68,21 @@ export const usersColumns: ColumnDef<UserType>[] = [
           className="capitalize"
         >
           {status}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "verificationStatus",
+    header: "Verification",
+    cell: ({ row }) => {
+      const status = row.original.verificationStatus;
+      return (
+        <Badge
+          variant={getVerificationBadgeVariant(status)}
+          className="capitalize"
+        >
+          {formatVerificationStatus(status)}
         </Badge>
       );
     },

@@ -7,9 +7,14 @@ import {
   deleteUserByIdRequest,
   deactivateUserByIdRequest,
   activateUserByIdRequest,
+  recheckUserVerificationRequest,
 } from "@/services/user.service";
 import { toast } from "sonner";
-import { DeleteUserResponse, UserResponse } from "@/types/user.type";
+import {
+  DeleteUserResponse,
+  RecheckVerificationResponse,
+  UserResponse,
+} from "@/types/user.type";
 
 export const useUsersQuery = (page: number, search?: string) => {
   return useQuery({
@@ -70,6 +75,22 @@ export const useReactivateUser = () => {
 
     onError: (error: any) => {
       toast.error(error?.message || "Failed to reactivate user");
+    },
+  });
+};
+
+export const useRecheckVerification = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: recheckUserVerificationRequest,
+
+    onSuccess: (response: RecheckVerificationResponse) => {
+      toast.success(response?.message);
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+
+    onError: (error: any) => {
+      toast.error(error?.message || "Failed to recheck verification");
     },
   });
 };
