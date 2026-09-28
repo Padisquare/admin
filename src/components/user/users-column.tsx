@@ -6,26 +6,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatOnlyDate } from "@/utils/formatDate";
 import { UserType } from "@/types/user.type";
 
-const getVerificationBadgeVariant = (
-  status?: string,
-): "outline" | "destructive" | "secondary" => {
-  switch (status) {
-    case "approved":
-      return "outline";
-    case "declined":
-    case "expired":
-    case "abandoned":
-      return "destructive";
-    default:
-      return "secondary";
-  }
-};
-
-const formatVerificationStatus = (status?: string) => {
-  if (!status) return "Not started";
-  return status.replace(/_/g, " ");
-};
-
 export const usersColumns: ColumnDef<UserType>[] = [
   {
     id: "name",
@@ -44,7 +24,9 @@ export const usersColumns: ColumnDef<UserType>[] = [
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="font-medium text-sm leading-none">{fullName}</span>
+            <span className="font-medium text-sm leading-none flex items-center gap-1">
+              {fullName}
+            </span>
             <span className="text-xs text-muted-foreground mt-1">
               @{user.username}
             </span>
@@ -73,16 +55,13 @@ export const usersColumns: ColumnDef<UserType>[] = [
     },
   },
   {
-    accessorKey: "verificationStatus",
+    accessorKey: "verified",
     header: "Verification",
     cell: ({ row }) => {
-      const status = row.original.verificationStatus;
+      const verified = row.original.verified;
       return (
-        <Badge
-          variant={getVerificationBadgeVariant(status)}
-          className="capitalize"
-        >
-          {formatVerificationStatus(status)}
+        <Badge variant={verified ? "outline" : "secondary"} className="capitalize">
+          {verified ? "Verified" : "Not verified"}
         </Badge>
       );
     },
