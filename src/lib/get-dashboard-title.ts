@@ -2,6 +2,7 @@ const dashboardRouteTitles: Record<string, string> = {
   "/dashboard": "Dashboard",
   "/users": "Users",
   "/products": "Products",
+  "/orders": "Orders",
   "/product-request": "Product Requests",
   "/reports": "Reports",
   "/settings": "Settings",

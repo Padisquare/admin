@@ -22,6 +22,7 @@ import {
   LayoutDashboard,
   LayoutPanelLeft,
   Package,
+  ShoppingBag,
   Settings,
   Users,
 } from "lucide-react";
@@ -45,6 +46,11 @@ const items = [
     title: "Products",
     url: "/products",
     icon: Package,
+  },
+  {
+    title: "Orders",
+    url: "/orders",
+    icon: ShoppingBag,
   },
   {
     title: "Product Requests",

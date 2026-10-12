@@ -9,6 +9,7 @@ const protectedPaths = [
   "/",
   "/product-requests/:path*",
   "/products/:path*",
+  "/orders/:path*",
   "/settings/:path*",
   "/reels/:path*",
   "/users/:path*",
