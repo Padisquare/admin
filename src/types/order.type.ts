@@ -18,6 +18,7 @@ export type OrderStatus =
   | "draft"
   | "pending_payment"
   | "paid"
+  | "ready_for_pickup"
   | "shipment_pending"
   | "shipment_confirmed"
   | "picked_up"
@@ -41,8 +42,23 @@ export type OrderParty = {
 
 export type SelectedCourier = {
   courierId: string;
+  courierName?: string;
   serviceCode: string;
   total: number;
+};
+
+/** delivery: a courier is booked. pickup: the buyer collects from the seller. */
+export type FulfilmentMethod = "delivery" | "pickup";
+
+/** The seller's address on a pickup order. Street address and contact only once the order is paid. */
+export type PickupAddress = {
+  state: string;
+  lga: string;
+  city?: string;
+  isComplete: boolean;
+  address?: string;
+  contactName?: string;
+  contactPhone?: string;
 };
 
 export type OrderStatusHistoryEntry = {
@@ -57,8 +73,12 @@ export type OrderType = {
   escrowStatus?: EscrowStatus;
   buyer?: OrderParty;
   seller?: OrderParty;
+  fulfilmentMethod: FulfilmentMethod;
+  pickupAddress?: PickupAddress;
+  // total = subtotal + deliveryFee + buyerProtectionFee
   subtotal: number;
   deliveryFee?: number;
+  buyerProtectionFee: number;
   total?: number;
   platformFeeAmount?: number;
   vendorPayoutAmount?: number;
@@ -71,6 +91,9 @@ export type OrderType = {
   cancelledAt?: string;
   refundReference?: string;
   refundedAmount?: number;
+  payoutFailureReason?: string;
+  deliveryConfirmedAt?: string;
+  pickupCodeAttempts?: number;
   createdAt?: string;
   updatedAt: string;
 };

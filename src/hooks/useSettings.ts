@@ -2,32 +2,36 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  fetchEscrowPercentageRequest,
-  updateEscrowPercentageRequest,
+  fetchBuyerProtectionPricingRequest,
+  updateBuyerProtectionPricingRequest,
 } from "@/services/settings.service";
 import { toast } from "sonner";
-import { EscrowSettingsResponse } from "@/types/settings.type";
+import { BuyerProtectionPricingResponse } from "@/types/settings.type";
 
-export const useEscrowPercentage = () => {
-  return useQuery<EscrowSettingsResponse>({
-    queryKey: ["settings", "escrow-percentage"],
-    queryFn: fetchEscrowPercentageRequest,
+const BUYER_PROTECTION_PRICING_KEY = ["settings", "buyer-protection-fee"];
+
+export const useBuyerProtectionPricing = () => {
+  return useQuery<BuyerProtectionPricingResponse>({
+    queryKey: BUYER_PROTECTION_PRICING_KEY,
+    queryFn: fetchBuyerProtectionPricingRequest,
   });
 };
 
-export const useUpdateEscrowPercentage = () => {
+export const useUpdateBuyerProtectionPricing = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: updateEscrowPercentageRequest,
-    onSuccess: (response: EscrowSettingsResponse) => {
+    mutationFn: updateBuyerProtectionPricingRequest,
+    onSuccess: (response: BuyerProtectionPricingResponse) => {
       toast.success(response?.message);
       queryClient.invalidateQueries({
-        queryKey: ["settings", "escrow-percentage"],
+        queryKey: BUYER_PROTECTION_PRICING_KEY,
       });
     },
-    onError: (error: any) => {
-      toast.error(error?.message || "Failed to update escrow percentage");
+    onError: (error: { message?: string }) => {
+      toast.error(
+        error?.message || "Failed to update the Buyer Protection fee",
+      );
     },
   });
 };

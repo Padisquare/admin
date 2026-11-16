@@ -105,19 +105,19 @@ export default function SettingsHub() {
               <div className="p-3 bg-[#A4F1B2] rounded-full w-fit">
                 <Percent className="text-[#006B2C]" size={20} />
               </div>
-              <h2 className="text-lg font-medium">Escrow Percentage</h2>
+              <h2 className="text-lg font-medium">Buyer Protection Fee</h2>
             </div>
             <p className="text-gray-500 text-sm">
-              Set the platform-wide commission cut deducted from a
-              vendor&apos;s payout before escrow funds are released.
+              Set the tiered fee buyers pay on top of an order&apos;s subtotal.
+              Sellers are paid the full subtotal.
             </p>
           </div>
           <div className="mt-6 ml-auto">
             <Link
-              href={"/settings/escrow-percentage"}
+              href={"/settings/buyer-protection-fee"}
               className="rounded-full px-5 py-2 bg-green-600 text-white text-sm font-medium bg-linear-to-r from-[#006B2C] to-[#00873A] transition"
             >
-              Configure Rate →
+              Configure Fee →
             </Link>
           </div>
         </div>

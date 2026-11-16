@@ -42,6 +42,8 @@ const OrderDetail = ({ orderId }: { orderId: string }) => {
 
   const order = data?.entity?.order;
   const webhookLogs = data?.entity?.webhookLogs ?? [];
+  const isPickup = order?.fulfilmentMethod === "pickup";
+  const pickupAddress = order?.pickupAddress;
   if (isError || !order) {
     return (
       <div className="bg-white p-10 text-center space-y-4 rounded-lg border">
@@ -86,13 +88,17 @@ const OrderDetail = ({ orderId }: { orderId: string }) => {
               disabled={retry.isPending}
               onClick={() => retry.mutate(order._id)}
             >
-              {retry.isPending ? "Retrying…" : "Retry shipment"}
+              {retry.isPending
+                ? "Retrying…"
+                : isPickup
+                  ? "Retry pickup setup"
+                  : "Retry shipment"}
             </Button>
           )}
         </div>
       </div>
 
-      <ShipmentSimulator order={order} />
+      {!isPickup && <ShipmentSimulator order={order} />}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Party title="Buyer" party={order.buyer} />
@@ -104,41 +110,111 @@ const OrderDetail = ({ orderId }: { orderId: string }) => {
           <h2 className="text-sm font-semibold">Payment</h2>
           <dl className="space-y-2">
             <Row label="Subtotal" value={formatNaira(order.subtotal)} />
-            <Row label="Delivery fee" value={formatNaira(order.deliveryFee)} />
-            <Row label="Total" value={formatNaira(order.total)} />
+            <Row
+              label="Delivery fee"
+              value={
+                isPickup
+                  ? "None (pickup)"
+                  : order.deliveryFee === undefined
+                    ? "Courier not chosen yet"
+                    : formatNaira(order.deliveryFee)
+              }
+            />
+            <Row
+              label="Buyer Protection fee"
+              value={formatNaira(order.buyerProtectionFee)}
+            />
+            <Row label="Total (buyer pays)" value={formatNaira(order.total)} />
             <Row label="Payment status" value={humanize(order.paymentStatus)} />
-            <Row label="Platform fee" value={formatNaira(order.platformFeeAmount)} />
-            <Row label="Vendor payout" value={formatNaira(order.vendorPayoutAmount)} />
+          </dl>
+
+          <h2 className="text-sm font-semibold pt-3">Escrow</h2>
+          <dl className="space-y-2">
+            <Row label="Platform keeps" value={formatNaira(order.platformFeeAmount)} />
+            <Row label="Seller payout" value={formatNaira(order.vendorPayoutAmount)} />
             {order.refundedAmount !== undefined && (
               <Row label="Refunded" value={formatNaira(order.refundedAmount)} />
+            )}
+            {order.payoutFailureReason && (
+              <Row label="Last payout/refund error" value={order.payoutFailureReason} />
             )}
           </dl>
         </div>
 
-        <div className="rounded-2xl border p-5 space-y-2">
-          <h2 className="text-sm font-semibold">Shipment</h2>
-          <dl className="space-y-2">
-            <Row label="Courier" value={order.selectedCourier?.courierId ?? "—"} />
-            <Row label="ShipBubble ID" value={order.shipbubbleOrderId ?? "—"} />
-            <Row
-              label="Tracking"
-              value={
-                order.trackingUrl ? (
-                  <a
-                    href={order.trackingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
-                  >
-                    Open tracking
-                  </a>
-                ) : (
+        {isPickup ? (
+          <div className="rounded-2xl border p-5 space-y-2">
+            <h2 className="text-sm font-semibold">Pickup</h2>
+            <dl className="space-y-2">
+              <Row label="Fulfilment" value="Buyer collects from seller" />
+              <Row
+                label="Pickup address"
+                value={
+                  pickupAddress
+                    ? [
+                        pickupAddress.address,
+                        pickupAddress.city || pickupAddress.lga,
+                        pickupAddress.state,
+                      ]
+                        .filter(Boolean)
+                        .join(", ")
+                    : "—"
+                }
+              />
+              {pickupAddress && !pickupAddress.isComplete && (
+                <Row
+                  label="Street address"
+                  value="Shared with the buyer once paid"
+                />
+              )}
+              <Row label="Contact" value={pickupAddress?.contactName ?? "—"} />
+              <Row label="Contact phone" value={pickupAddress?.contactPhone ?? "—"} />
+              <Row
+                label="Handover confirmed"
+                value={
+                  order.deliveryConfirmedAt
+                    ? formatDateDashTime(order.deliveryConfirmedAt)
+                    : "Not yet"
+                }
+              />
+              <Row
+                label="Wrong codes from seller"
+                value={`${order.pickupCodeAttempts ?? 0} of 5`}
+              />
+            </dl>
+          </div>
+        ) : (
+          <div className="rounded-2xl border p-5 space-y-2">
+            <h2 className="text-sm font-semibold">Shipment</h2>
+            <dl className="space-y-2">
+              <Row
+                label="Courier"
+                value={
+                  order.selectedCourier?.courierName ??
+                  order.selectedCourier?.courierId ??
                   "—"
-                )
-              }
-            />
-          </dl>
-        </div>
+                }
+              />
+              <Row label="ShipBubble ID" value={order.shipbubbleOrderId ?? "—"} />
+              <Row
+                label="Tracking"
+                value={
+                  order.trackingUrl ? (
+                    <a
+                      href={order.trackingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      Open tracking
+                    </a>
+                  ) : (
+                    "—"
+                  )
+                }
+              />
+            </dl>
+          </div>
+        )}
       </div>
 
       <div className="rounded-2xl border p-5 space-y-3">
